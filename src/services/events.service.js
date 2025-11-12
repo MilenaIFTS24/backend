@@ -12,6 +12,26 @@ export const getEventById = async (id) => {
     return event;
 };
 
+export const searchEventByTitle = async (title) => {
+    const events = await model.getAllEvents();
+
+    if (!Array.isArray(events)) {
+        throw new Error('Error interno al obtener eventos');
+    }
+
+    const filteredEvents = products.filter((event) =>
+        typeof event.title === 'string' &&
+        event.title.toLowerCase().includes(title.toLowerCase().trim())
+    );
+
+    if (filteredEvents.length === 0) {
+        throw new Error('No se encontraron eventos con ese título');
+    }
+
+    return filteredEvents;
+}
+
+
 export const createEvent = async (data) => {
     return await model.createEvent(data);
 };
@@ -117,24 +137,26 @@ export const validateEventData = (data) => {
 
 export const validateEventUpdateData = (data) => {
     if (!data || typeof data !== 'object') {
-        return { 
-            valid: false, 
-            message: 'No se proporcionaron datos para actualizar el evento.' 
+        errors.push('No se proporcionaron datos para actualizar el evento.');
+        return {
+            valid: false,
+            message: 'No se proporcionaron datos para actualizar el evento.'
         };
     }
-    
-    const { 
-        title, date, startTime, endTime, registrationRequired, isFree, 
-        description, location, isVirtual, entryPrice, cancelledByRain 
+
+    const {
+        title, date, startTime, endTime, registrationRequired, isFree,
+        description, location, isVirtual, entryPrice, cancelledByRain
     } = data;
-    
+
     const errors = [];
 
     // Verificar que al menos un campo esté presente para actualizar
-    if (!title && !date && !startTime && !endTime && 
-        registrationRequired === undefined && isFree === undefined && 
-        !description && !location && isVirtual === undefined && 
+    if (!title && !date && !startTime && !endTime &&
+        registrationRequired === undefined && isFree === undefined &&
+        !description && !location && isVirtual === undefined &&
         entryPrice === undefined && cancelledByRain === undefined) {
+        errors.push('Debes proporcionar al menos un campo para actualizar el evento.');
         return { valid: false, message: 'Debes proporcionar al menos un campo para actualizar el evento.' };
     }
 

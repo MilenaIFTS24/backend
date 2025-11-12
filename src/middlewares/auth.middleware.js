@@ -9,14 +9,14 @@ export const auth = (req, res, next) => {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-            console.error('❌ [AUTH MIDDLEWARE] Token inválido:', err.message);
+            console.error('Auth middleware --> Token inválido:', err.message);
             return res.status(403).json({
                 success: false,
                 error: 'Token inválido o expirado'
             });
         }
         req.user = decoded;
-        console.log('Usuario autenticado:', req.user.email)
+        console.log('Auth middleware --> Usuario autenticado:', req.user.email)
         next();
     });
 
@@ -31,12 +31,12 @@ export const requiresAdmin = (req, res, next) => {
     }
 
     if (req.user.role !== "admin") {
-        console.warn(`Intento de acceso no autorizado. Usuario: ${req.user.email}, Rol: ${req.user.role}`);
+        console.warn(`Auth middleware --> Intento de acceso no autorizado. Usuario: ${req.user.email}, Rol: ${req.user.role}`);
         return res.status(403).json({
             error: 'Acceso denegado. Se requiere rol de administrador'
         });
     }
 
-    console.log(`Acceso admin autorizado para: ${req.user.email}`);
+    console.log(`Auth middleware --> Acceso admin autorizado para: ${req.user.email}`);
     next();
 };

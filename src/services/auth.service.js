@@ -13,7 +13,7 @@ export const authService = {
             fullName: user.fullName
         }
 
-        // Generar token
+        // Genero el token
         const token = jwt.sign(payload, process.env.JWT_secret, {
             expiresIn: process.env.JWT_EXPIRES_IN || '24h'
         });
@@ -36,9 +36,8 @@ export const authService = {
     },
 
     verifyToken: (token) => {
-        // Lógica para verificar token
         try {
-            // Verificar y decodificar el token JWT
+            // Verifico el token
             return jwt.verify(token, process.env.JWT_SECRET);
         } catch (error) {
             // Si el token es inválido o expiró

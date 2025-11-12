@@ -7,9 +7,10 @@ export const getAllTeasProducts = async () => {
     try {
         const snapshot = await getDocs(productsCollection);
 
+        console.log('Capa Modelo ---> getAllTeasProducts: ', snapshot.data());
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
-        console.error('Error al obtener los productos:', error);
+        console.error('Capa Modelo --> Error al obtener los productos:', error);
         return [];
     }
 };
@@ -20,29 +21,28 @@ export const getTeaProductById = async (id) => {
 
         const snapshot = await getDoc(productRef);
 
+        console.log('Capa Modelo ---> getTeaProductById: ', snapshot.data());
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
-        console.error('Error al obtener el producto:', error);
+        console.error('Capa Modelo --> Error al obtener el producto:', error);
         return null;
     }
 };
 
 export const createTeaProduct = async (data) => {
     try {
-        // VALIDACIÓN BÁSICA DEL OBJETO RECIBIDO
-        
-        if (!data || typeof data !== 'object') { 
-            throw new Error('Los datos del producto no son válidos'); 
+        if (!data || typeof data !== 'object') {
+            throw new Error('Los datos del producto no son válidos');
         }
 
-        const docRef = await addDoc(productsCollection, data); 
+        const docRef = await addDoc(productsCollection, data);
 
-        
-        return { id: docRef.id, ...data }; 
+        console.log('Capa Modelo ---> createTeaProduct: ', docRef.data());
+        return { id: docRef.id, ...data };
 
-    } catch (error) {        
-        console.error('Error al crear el producto en la base de datos:', error); 
-        throw new Error('Error al crear el producto en la base de datos'); // El controller manejará este error
+    } catch (error) {
+        console.error('Capa Modelo --> Error al crear el producto en la base de datos:', error);
+        throw new Error('Error al crear el producto en la base de datos');
     }
 };
 
@@ -55,7 +55,6 @@ export const updateTeaProduct = async (id, updateData) => {
         if (!snapshot.exists()) {
             console.warn(`No existe doc con doc.id='${id}', buscando por campo 'id' en documentos...`);
 
-            // Tomo todos los docs 
             const allSnapshot = await getDocs(productsCollection);
 
             const found = allSnapshot.docs.find(d => {
@@ -78,12 +77,10 @@ export const updateTeaProduct = async (id, updateData) => {
         const updatedSnapshot = await getDoc(productRef);
         const updatedData = { id: updatedSnapshot.id, ...updatedSnapshot.data() };
 
-        console.log('Producto actualizado:', updatedData);
+        console.log('Capa Modelo ---> updateTeaProduct:', updatedData);
         return updatedData;
-
-
     } catch (error) {
-        console.error('Error al actualizar el producto:', error);
+        console.error('Capa Modelo --> Error al actualizar el producto:', error);
         return null;
     }
 }
@@ -95,13 +92,16 @@ export const deleteTeaProduct = async (id) => {
         const snapshot = await getDoc(productRef);
 
         if (!snapshot.exists()) {
-            return null;
+            console.warn(`No existe doc con doc.id='${id}'`);
+            return { deleted: false, message: 'Producto no encontrado' };
         }
 
         await deleteDoc(productRef);
+
+        console.log('Capa Modelo ---> deleteTeaProduct:', snapshot.data());
         return snapshot.data();
     } catch (error) {
-        console.error('Error al eliminar el producto:', error);
+        console.error('Capa Modelo --> Error al eliminar el producto:', error);
         return null;
     }
 }

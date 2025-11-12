@@ -7,9 +7,10 @@ export const getAllReservations = async () => {
     try {
         const snapshot = await getDocs(reservationsCollection);
 
+        console.log('Capa Modelo ---> getAllReservations: ', snapshot.data());
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
-        console.error('Error al obtener las reservas:', error);
+        console.error('Capa Modelo --> Error al obtener las reservas:', error);
         return [];
     }
 }
@@ -20,9 +21,10 @@ export const getReservationById = async (id) => {
 
         const snapshot = await getDoc(reservationRef);
 
+        console.log('Capa Modelo ---> getReservationById: ', snapshot.data());
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
-        console.error('Error al obtener la reserva:', error);
+        console.error('Capa Modelo --> Error al obtener la reserva:', error);
         return null;
     }
 }
@@ -36,11 +38,11 @@ export const createReservation = async (data) => {
 
         if (data.products && Array.isArray(data.products)) {
             data.products = data.products.map(product => {
-                console.log('🔍 Creando referencia para:', product);
+                console.log('Creando referencia para:', product);
 
                 // Crear referencia de Firestore (ya viene collection preparada)
                 const productRef = doc(db, product.collection, product.id);
-                console.log('✅ Referencia creada:', productRef.path);
+                console.log('Referencia creada:', productRef.path);
 
                 return {
                     productRef: productRef,
@@ -51,10 +53,11 @@ export const createReservation = async (data) => {
         }
 
         const docRef = await addDoc(reservationsCollection, data);
+        console.log('Capa Modelo ---> createReservation: ', docRef.data());
         return { id: docRef.id, ...data };
 
     } catch (error) {
-        console.error('Error al crear la reserva en la base de datos:', error);
+        console.error('Capa Modelo --> Error al crear la reserva en la base de datos:', error);
         throw new Error('Error al crear la reserva en la base de datos');
     }
 }
@@ -67,7 +70,6 @@ export const updateReservation = async (id, updateData) => {
         if (!snapshot.exists()) {
             console.warn(`No existe doc con doc.id='${id}', buscando por campo 'id' en documentos...`);
 
-            // Tomo todos los docs 
             const allSnapshot = await getDocs(reservationsCollection);
 
             const found = allSnapshot.docs.find(d => {
@@ -87,9 +89,9 @@ export const updateReservation = async (id, updateData) => {
 
         if (updateData.products && Array.isArray(updateData.products)) {
             updateData.products = updateData.products.map(product => ({
-                productRef: doc(db, product.collection, product.id), // ✅ Referencia
-                quantity: product.quantity,                          // ✅ Mantener
-                unitPrice: product.unitPrice                         // ✅ Mantener
+                productRef: doc(db, product.collection, product.id), 
+                quantity: product.quantity,                          
+                unitPrice: product.unitPrice                         
             }));
         }
 
@@ -98,11 +100,11 @@ export const updateReservation = async (id, updateData) => {
         const updatedSnapshot = await getDoc(reservationRef);
         const updatedData = { id: updatedSnapshot.id, ...updatedSnapshot.data() };
 
-        console.log('Reserva actualizada:', updatedData);
+        console.log('Capa Modelo ---> updateReservation:', updatedData);
         return updatedData;
 
     } catch (error) {
-        console.error('Error al actualizar la reserva:', error);
+        console.error('Capa Modelo --> Error al actualizar la reserva:', error);
         return null;
     }
 }
@@ -114,13 +116,16 @@ export const deleteReservation = async (id) => {
         const snapshot = await getDoc(reservationRef);
 
         if (!snapshot.exists()) {
-            return null;
+            console.warn(`No existe doc con doc.id='${id}'`);
+            return { deleted: false, message: 'Reserva no encontrada' };
         }
 
         await deleteDoc(reservationRef);
+
+        console.log('Capa Modelo ---> deleteReservation:', snapshot.data());
         return snapshot.data();
     } catch (error) {
-        console.error('Error al eliminar la reserva:', error);
+        console.error('Capa Modelo --> Error al eliminar la reserva:', error);
         return null;
     }
 }

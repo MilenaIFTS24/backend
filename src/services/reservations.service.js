@@ -17,7 +17,6 @@ export const createReservation = async (data) => {
 
         if (data.products && Array.isArray(data.products)) {
             data.products = prepareProducts(data.products);
-            console.log('✅ Productos preparados:', data.products);
         }
 
         return await model.createReservation(data);
@@ -33,11 +32,9 @@ export const updateReservation = async (id, updateData) => {
     }
 
     if (updateData.products && Array.isArray(updateData.products)) {
-        // Validaciones de negocio
         if (updateData.products.length === 0) {
             throw new Error('Debe haber al menos un producto en la reserva');
         }
-
         updateData.products = prepareProducts(updateData.products);
     }
 
@@ -169,6 +166,7 @@ export const validateReservationUpdateData = (data) => {
         contactEmail === undefined && paymentMethod === undefined && subtotal === undefined &&
         discount === undefined && state === undefined && discountCode === undefined &&
         ecoPackaging === undefined && cancellationDate === undefined) {
+        errors.push('Debes proporcionar al menos un campo para actualizar la reserva.');
         return { valid: false, message: 'Debes proporcionar al menos un campo para actualizar la reserva.' };
     }
 

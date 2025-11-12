@@ -36,7 +36,6 @@ export const createTeaProduct = async (data) => {
 };
 
 export const updateTeaProduct = async (id, updateData) => {
-
     const updateProduct = await model.getTeaProductById(id);
     if (!updateProduct) {
         throw new Error('Producto no encontrado');
@@ -95,6 +94,7 @@ export const validateUpdateData = (data) => {
     const errors = [];
     
     if (!name && !brand && !description && !price && stock === undefined) {
+        errors.push('Debes proporcionar al menos un campo para actualizar');
         return { valid: false, message: 'Debes proporcionar al menos un campo para actualizar' };
     }
 

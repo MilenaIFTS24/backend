@@ -7,9 +7,10 @@ export const getAllEvents = async () => {
     try {
         const snapshot = await getDocs(eventsCollection);
         
+        console.log('Capa Modelo ---> getAllEvents: ', snapshot.data());
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
-        console.error('Error al obtener los eventos:', error);
+        console.error('Capa Modelo --> Error al obtener los eventos:', error);
         return [];
     }
 };
@@ -20,9 +21,10 @@ export const getEventById = async (id) => {
         
         const snapshot = await getDoc(eventRef);
         
+        console.log('Capa Modelo ---> getEventById: ', snapshot.data());
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
-        console.error('Error al obtener el evento:', error);
+        console.error('Capa Modelo --> Error al obtener el evento:', error);
         return null;
     }
 };
@@ -33,9 +35,10 @@ export const createEvent = async (data) => {
             throw new Error('Los datos de la oferta no son válidos');
         }
          const docRef = await addDoc(eventsCollection, data);
+         console.log('Capa Modelo ---> createEvent: ', docRef.data());
          return { id: docRef.id, ...data };
     } catch (error) {
-        console.error('Error al crear el evento en la base de datos:', error);
+        console.error('Capa Modelo --> Error al crear el evento en la base de datos:', error);
         throw new error('Error al crear el evento en la base de datos');
     }
 };
@@ -68,10 +71,10 @@ export const updateEvent = async (id, data) => {
         const updatedSnapshot = await getDoc(eventRef);
         const updatedData = { id: updatedSnapshot.id, ...updatedSnapshot.data() };
         
-        console.log(updatedData)
+        console.log('Capa Modelo ---> updateEvent: ', updatedData)
         return updatedData;
     } catch (error) {
-        console.error('Error al actualizar el evento en la base de datos:', error);
+        console.error('Capa Modelo --> Error al actualizar el evento en la base de datos:', error);
         return null;
     }
 };
@@ -82,13 +85,15 @@ export const deleteEvent = async (id) => {
         const snapshot = await getDoc(eventRef);
 
         if (!snapshot.exists) {
-            return null;
+            console.warn(`No existe doc con doc.id='${id}'`);
+            return { deleted: false, message: 'Evento no encontrado' };
         }
 
         await deleteDoc(eventRef);
+        console.log('Capa Modelo ---> deleteEvent: ', snapshot.data());
         return snapshot.data();
     } catch (error) {
-        console.error('Error al eliminar el evento de la base de datos:', error);
+        console.error('Capa Modelo --> Error al eliminar el evento de la base de datos:', error);
         return null;
     }
 };

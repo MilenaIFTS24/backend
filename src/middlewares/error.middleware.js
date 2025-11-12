@@ -4,6 +4,6 @@ export const notFoundHandler = (req, res, next) => {
 };
 
 export const errorHandler = (err, req, res, next) => {
-    console.error('💥 [ERROR]', err.stack);
+    console.error('Error middleware --> Error: ', err.stack);
     res.status(500).json({ error: 'Error interno del servidor' });
 };

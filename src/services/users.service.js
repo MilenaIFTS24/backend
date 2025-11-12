@@ -20,12 +20,31 @@ export const getUserByEmail = async (email) => {
         throw new Error('Usuario no encontrado');
     }
     return user;
+};
+
+export const searchUserByName = async (name) => {
+    const users = await model.getAllUsers();
+
+    if (!Array.isArray(users)) {
+        throw new Error('Error interno al obtener usuarios');
+    }
+
+    const filteredUsers = users.filter((user) =>
+        typeof user.name === 'string' &&
+        user.name.toLowerCase().includes(name.toLowerCase().trim())
+    );
+
+    if (filteredUsers.length === 0) {
+        throw new Error('No se encontraron usuarios con ese nombre');
+    }
+
+    return filteredUsers;
 }
 
 export const createUser = async (data) => {
-    
+
     const existingUser = await model.getUserByEmail(data.email);
-    
+
     if (existingUser) {
         throw new Error('El email ya está registrado');
     }
@@ -35,11 +54,11 @@ export const createUser = async (data) => {
 
 export const updateUser = async (id, updateData) => {
     const existingUser = await model.getUserById(id);
-    // Validar que el usuario exista
     if (!existingUser) {
         throw new Error('Usuario no encontrado');
     }
-    // Validar que el email no se repita
+
+    // Valido que el email no se repita
     if (updateData.email && updateData.email !== existingUser.email) {
         const userWithEmail = await model.getUserByEmail(updateData.email);
         if (userWithEmail && userWithEmail.id !== id) {
@@ -58,13 +77,13 @@ export const deleteUser = async (id) => {
     return await model.deleteUser(id);
 }
 
-export const verifyPassword = async (plainPassword, hashedPassword) => {
+export const verifyPassword = async (plainPassword, hashedPassword) => { //Verifico la contraseña 
     return await bcrypt.compare(plainPassword, hashedPassword);
 }
 
-export const authenticateUser = async (email, password) => { //Verifico credenciales y/o cuenta activa
+export const authenticateUser = async (email, password) => { //Verifico credenciales y/o estado de la cuenta
     const user = await model.getUserByEmail(email);
-    
+
     if (!user) {
         throw new Error('Credenciales inválidas');
     }
@@ -77,7 +96,6 @@ export const authenticateUser = async (email, password) => { //Verifico credenci
     // Verifico la contraseña
     const isValidPassword = await verifyPassword(password, user.password);
     if (!isValidPassword) {
-        console.log('Contraseña inválida');
         throw new Error('Credenciales inválidas');
     }
 
@@ -165,6 +183,7 @@ export const validateUserUpdateData = (data) => {
     if (fullName === undefined && dateOfBirth === undefined && email === undefined &&
         password === undefined && accountEnabled === undefined && phone === undefined &&
         address === undefined && role === undefined) {
+        errors.push('Debes proporcionar al menos un campo para actualizar el usuario.');
         return { valid: false, message: 'Debes proporcionar al menos un campo para actualizar el usuario.' };
     }
 

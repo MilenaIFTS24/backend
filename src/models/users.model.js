@@ -7,9 +7,11 @@ const usersCollection = collection(db, "users");
 export const getAllUsers = async () => {
     try {
         const snapshot = await getDocs(usersCollection);
+
+        console.log('Capa Modelo ---> getAllUsers: ', snapshot.data());
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
-        console.error('Error al obtener los usuarios:', error);
+        console.error('Capa Modelo --> Error al obtener los usuarios:', error);
         return [];
     }
 }
@@ -18,16 +20,17 @@ export const getUserById = async (id) => {
     try {
         const userRef = doc(usersCollection, id);
         const snapshot = await getDoc(userRef);
+
+        console.log('Capa Modelo ---> getUserById: ', snapshot.data());
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
-        console.error('Error al obtener el usuario:', error);
+        console.error('Capa Modelo --> Error al obtener el usuario:', error);
         return null;
     }
 }
 
 export const getUserByEmail = async (email) => {
-    try {
-        
+    try {        
         const snapshot = await getAllUsers();
         
         if (!snapshot || snapshot.empty || !snapshot.docs) {
@@ -36,12 +39,13 @@ export const getUserByEmail = async (email) => {
         }
         const userDoc = snapshot.docs.find(doc => {
             const userData = doc.data();
-            return userData.email === email; // Buscar por el campo email
+            return userData.email === email;
         });
 
+        console.log('Capa Modelo ---> getUserByEmail: ', userDoc.data());
         return userDoc ? { id: userDoc.id, ...userDoc.data() } : null;
     } catch (error) {
-        console.error('Error al obtener el usuario:', error);
+        console.error('Capa Modelo --> Error al obtener el usuario:', error);
         return null;
     }
 }
@@ -52,7 +56,6 @@ export const createUser = async (data) => {
             throw new Error('Los datos del usuario no son válidos');
         }
 
-        //Verifico si el email ya esta registrado
         const existingUser = await getUserByEmail(data.email);
         if (existingUser) {
             throw new Error('El email ya está registrado');
@@ -67,8 +70,8 @@ export const createUser = async (data) => {
             fullName: data.fullName,
             dateOfBirth: data.dateOfBirth,
             email: data.email,
-            password: data.password, // Ya hasheada
-            accountEnabled: true, // Default true
+            password: data.password,
+            accountEnabled: true,
             phone: data.phone || '',
             address: data.address || '',
             role: 'user',
@@ -76,9 +79,11 @@ export const createUser = async (data) => {
         };
 
         const docRef = await addDoc(usersCollection, userData);
+
+        console.log('Capa Modelo ---> createUser: ', docRef.data());
         return { id: docRef.id, ...userData, password: undefined };
     } catch (error) {
-        console.error('Error al crear el usuario en la base de datos:', error);
+        console.error('Capa Modelo --> Error al crear el usuario en la base de datos:', error);
         throw new Error('Error al crear el usuario en la base de datos');
     }
 }
@@ -125,10 +130,11 @@ export const updateUser = async (id, data) => {
             password: undefined // No devuelvo la contraseña por seguridad
         };
 
+        console.log('Capa Modelo ---> updateUser: ', updatedData);
         return updatedData;
 
     } catch (error) {
-        console.error('Error al actualizar el usuario en la base de datos:', error);
+        console.error('Capa Modelo --> Error al actualizar el usuario en la base de datos:', error);
         throw new Error('Error al actualizar el usuario en la base de datos');
     }
 }
@@ -139,14 +145,16 @@ export const deleteUser = async (id) => {
         const snapshot = await getDoc(userRef);
 
         if (!snapshot.exists()) {
+            console.warn(`No existe doc con doc.id='${id}'`);
             return { deleted: false, message: 'Usuario no encontrado' };
         }
 
         await deleteDoc(userRef);
 
+        console.log('Capa Modelo ---> deleteUser: ', snapshot.data());
         return { deleted: true, data: snapshot.data() };
     } catch (error) {
-        console.error('Error al eliminar el usuario en la base de datos:', error);
+        console.error('Capa Modelo --> Error al eliminar el usuario en la base de datos:', error);
         return null;
     }
 }

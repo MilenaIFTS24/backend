@@ -12,10 +12,29 @@ export const getOfferById = async (id) => {
     return offer;
 };
 
+
+export const searchOfferByTitle = async (title) => {
+    const offers = await model.getAllOffers();
+
+    if (!Array.isArray(offers)) {
+        throw new Error('Error interno al obtener ofertas');
+    }
+
+    const filteredOffers = offers.filter((offer) =>
+        typeof offer.title === 'string' &&
+        offer.title.toLowerCase().includes(title.toLowerCase().trim())
+    );
+
+    if (filteredOffers.length === 0) {
+        throw new Error('No se encontraron ofertas con ese titulo');
+    }
+
+    return filteredOffers;
+}
+
 export const createOffer = async (data) => {
     try {
-        if (data.applicableTo && Array.isArray(data.applicableTo)) {
-            // ✅ Prepara datos para el modelo
+        if (data.applicableTo && Array.isArray(data.applicableTo)) {            
             data.applicableTo = prepareApplicableTo(data.applicableTo);
         }
 
@@ -37,7 +56,7 @@ export const updateOffer = async (id, updateData) => {
         if (updateData.applicableTo.length === 0) {
             throw new Error('Debe haber al menos un producto aplicable');
         }
-        
+
         updateData.applicableTo = prepareApplicableTo(updateData.applicableTo);
     }
 
@@ -142,6 +161,7 @@ export const validateUpdateData = (data) => {
 
     // Verificar que al menos un campo esté presente para actualizar
     if (!title && !description && !applicableTo && minimumPurchase === undefined && isLimited === undefined && limit === undefined && !state && !promotionalCode && !startDate && !endDate) {
+        errors.push('Debes proporcionar al menos un campo para actualizar la oferta.');
         return { valid: false, message: 'Debes proporcionar al menos un campo para actualizar la oferta.' };
     }
 
@@ -157,41 +177,41 @@ export const validateUpdateData = (data) => {
 
     // --- Validación del campo "applicableTo" ---
     if (applicableTo !== undefined) {
-    if (!Array.isArray(applicableTo) || applicableTo.length === 0) {
-        errors.push('El campo "applicableTo" debe ser un array con al menos un producto.');
-    } else {
-        // Validar cada producto en el array
-        applicableTo.forEach((product, index) => {
-            // Validar que es un objeto y tiene las propiedades requeridas
-            if (typeof product !== 'object' || product === null) {
-                errors.push(`Producto en posición ${index} debe ser un objeto válido`);
-                return; // Salir de esta iteración
-            }
-
-            // Validar que tiene type e id
-            if (!product.type || typeof product.type !== 'string') {
-                errors.push(`Producto en posición ${index} debe tener un "type" válido (string)`);
-            }
-            
-            if (!product.id || typeof product.id !== 'string') {
-                errors.push(`Producto en posición ${index} debe tener un "id" válido (string)`);
-            }
-
-            // Validar tipos permitidos solo si type existe
-            if (product.type) {
-                const validTypes = ['tea', 'craft'];
-                if (!validTypes.includes(product.type)) {
-                    errors.push(`Tipo no válido en posición ${index}: "${product.type}". Tipos permitidos: ${validTypes.join(', ')}`);
+        if (!Array.isArray(applicableTo) || applicableTo.length === 0) {
+            errors.push('El campo "applicableTo" debe ser un array con al menos un producto.');
+        } else {
+            // Validar cada producto en el array
+            applicableTo.forEach((product, index) => {
+                // Validar que es un objeto y tiene las propiedades requeridas
+                if (typeof product !== 'object' || product === null) {
+                    errors.push(`Producto en posición ${index} debe ser un objeto válido`);
+                    return; // Salir de esta iteración
                 }
-            }
 
-            // Validar que el id no esté vacío
-            if (product.id && product.id.trim() === '') {
-                errors.push(`El "id" en posición ${index} no puede estar vacío`);
-            }
-        });
+                // Validar que tiene type e id
+                if (!product.type || typeof product.type !== 'string') {
+                    errors.push(`Producto en posición ${index} debe tener un "type" válido (string)`);
+                }
+
+                if (!product.id || typeof product.id !== 'string') {
+                    errors.push(`Producto en posición ${index} debe tener un "id" válido (string)`);
+                }
+
+                // Validar tipos permitidos solo si type existe
+                if (product.type) {
+                    const validTypes = ['tea', 'craft'];
+                    if (!validTypes.includes(product.type)) {
+                        errors.push(`Tipo no válido en posición ${index}: "${product.type}". Tipos permitidos: ${validTypes.join(', ')}`);
+                    }
+                }
+
+                // Validar que el id no esté vacío
+                if (product.id && product.id.trim() === '') {
+                    errors.push(`El "id" en posición ${index} no puede estar vacío`);
+                }
+            });
+        }
     }
-}
 
     // --- Validación del campo "minimumPurchase" ---
     if (minimumPurchase !== undefined && (isNaN(Number(minimumPurchase)) || Number(minimumPurchase) < 0)) {
@@ -237,24 +257,22 @@ export const validateUpdateData = (data) => {
     return { valid: errors.length === 0, errors };
 };
 
-// FUNCIÓN REUTILIZABLE
-const prepareApplicableTo = (applicableTo) => {
-  return applicableTo.map(product => {
-    const collectionMap = {
-      'tea': 'teasProducts',
-      'craft': 'craftProducts'
-    };
-    
-    const collectionName = collectionMap[product.type];
-    if (!collectionName) {
-      throw new Error(`Tipo de producto no válido: ${product.type}`);
-    }
+const prepareApplicableTo = (applicableTo) => { //Preparo la información de los productos para enviarse como referencia
+    return applicableTo.map(product => {
+        const collectionMap = {
+            'tea': 'teasProducts',
+            'craft': 'craftProducts'
+        };
 
-    // ✅ SOLO prepara la información, NO crea DocumentReference
-    return {
-      collection: collectionName,
-      id: product.id,
-      type: product.type
-    };
-  });
+        const collectionName = collectionMap[product.type];
+        if (!collectionName) {
+            throw new Error(`Tipo de producto no válido: ${product.type}`);
+        }
+
+        return {
+            collection: collectionName,
+            id: product.id,
+            type: product.type
+        };
+    });
 };

@@ -18,21 +18,21 @@ export const createCraftProduct = async (data) => {
 
 export const searchCraftProductByName = async (name) => {
     const products = await model.getAllCraftsProducts();
-    
-        if (!Array.isArray(products)) {
-            throw new Error('Error interno al obtener productos');
-        }
-    
-        const filteredProducts = products.filter((product) =>
-            typeof product.name === 'string' &&
-            product.name.toLowerCase().includes(name.toLowerCase().trim())
-        );
-    
-        if (filteredProducts.length === 0) {
-            throw new Error('No se encontraron productos con ese nombre');
-        }
-    
-        return filteredProducts;
+
+    if (!Array.isArray(products)) {
+        throw new Error('Error interno al obtener productos');
+    }
+
+    const filteredProducts = products.filter((product) =>
+        typeof product.name === 'string' &&
+        product.name.toLowerCase().includes(name.toLowerCase().trim())
+    );
+
+    if (filteredProducts.length === 0) {
+        throw new Error('No se encontraron productos con ese nombre');
+    }
+
+    return filteredProducts;
 }
 
 export const updateCraftProduct = async (id, updateData) => {
@@ -110,10 +110,11 @@ export const validateProductData = (data) => {
 export const validateUpdateData = (data) => {
     const { name, brandArtist, creationDate, description, ecoFriendly, price, stock } = data;
     const errors = [];
-    
+
     // Verificar que al menos un campo esté presente para actualizar
-    if (!name && !brandArtist && !creationDate && !description && 
+    if (!name && !brandArtist && !creationDate && !description &&
         ecoFriendly === undefined && !price && stock === undefined) {
+        errors.push('Debes proporcionar al menos un campo para actualizar');
         return { valid: false, message: 'Debes proporcionar al menos un campo para actualizar' };
     }
 
@@ -121,12 +122,12 @@ export const validateUpdateData = (data) => {
     if (name !== undefined && (typeof name !== 'string' || name.trim().length < 1)) {
         errors.push('El campo "name" debe ser un string no vacío');
     }
-    
+
     // Validación del campo "brandArtist"
     if (brandArtist !== undefined && (typeof brandArtist !== 'string' || brandArtist.trim().length < 1)) {
         errors.push('El campo "brandArtist" debe ser un string no vacío');
     }
-    
+
     // Validación del campo "creationDate" (formato DD-MM-YY)
     if (creationDate !== undefined) {
         if (typeof creationDate !== 'string') {
@@ -138,28 +139,28 @@ export const validateUpdateData = (data) => {
             }
         }
     }
-    
+
     // Validación del campo "description"
     if (description !== undefined && (typeof description !== 'string' || description.trim().length < 1)) {
         errors.push('El campo "description" debe ser un string no vacío');
     }
-    
+
     // Validación del campo "ecoFriendly" (booleano)
     if (ecoFriendly !== undefined && typeof ecoFriendly !== 'boolean') {
         errors.push('El campo "ecoFriendly" debe ser un valor booleano (true/false)');
     }
-    
+
     // Validación del campo "price"
     if (price !== undefined && (isNaN(Number(price)) || Number(price) <= 0)) {
         errors.push('El campo "price" debe ser numérico y mayor a 0');
     }
-    
+
     // Validación del campo "stock"
     if (stock !== undefined && (isNaN(Number(stock)) || Number(stock) < 0)) {
         errors.push('El campo "stock" debe ser numérico y no negativo');
     } else if (stock !== undefined && stock > 10) {
         errors.push('Para artesanías el stock no debería exceder 10 unidades');
     }
-    
+
     return { valid: errors.length === 0, errors };
 };

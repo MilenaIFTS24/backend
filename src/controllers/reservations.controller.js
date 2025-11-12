@@ -7,34 +7,33 @@ export const getReservations = async (req, res) => {
         if (reservations.length === 0) {
             return res.status(404).json({ error: 'No hay reservas' });
         }
-        res.status(200).json(reservations);
-        console.log(reservations);
 
+        console.log("Capa Controlador ---> getReservations: ", reservations);
+        return res.status(200).json(reservations);
     } catch (error) {
-        console.error('Error al obtener las reservas:', error);
-        res.status(500).json({ error: 'Error al obtener las reservas' });
+        console.error('Capa Controlador --> Error al obtener las reservas:', error);
+        return res.status(500).json({ error: 'Error al obtener las reservas' });
     }
 };
 
 export const getReservationById = async (req, res) => {
     try {
-
         const { id } = req.params;
         if (!id) {
             return res.status(400).json({ error: 'ID de reserva inválido' });
         }
         const reservation = await reservationsService.getReservationById(id);
 
-        console.log(reservation);
-        res.status(200).json(reservation);
+        console.log("Capa Controlador ---> getReservationById: ", reservation);
+        return res.status(200).json(reservation);
     } catch (error) {
         if (error.message === 'Reserva no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        console.error('Error al obtener la reserva:', error);
-        res.status(500).json({ error: 'Error al obtener la reserva' });
+        console.error('Capa Controlador --> Error al obtener la reserva:', error);
+        return res.status(500).json({ error: 'Error al obtener la reserva' });
     }
-}
+};
 
 export const createReservation = async (req, res) => {
     const validation = reservationsService.validateReservationData(req.body);
@@ -79,17 +78,15 @@ export const createReservation = async (req, res) => {
             ecoPackaging
         });
 
-        console.log(newReservation);
+        console.log("Capa Controlador ---> createReservation: ", newReservation);
         return res.status(201).json(newReservation);
-
     } catch (error) {
-        console.error('Error al crear la reserva:', error);
+        console.error('Capa Controlador --> Error al crear la reserva:', error);
         return res.status(500).json({ error: 'Error al crear la reserva' });
     }
-}
+};
 
 export const updateReservation = async (req, res) => {
-
     const { id } = req.params;
     if (!id) {
         return res.status(400).json({ error: 'ID de reserva inválido' });
@@ -139,18 +136,17 @@ export const updateReservation = async (req, res) => {
             cancellationDate
         });
 
-        console.log(updatedReservation);
+        console.log("Capa Controlador ---> updateReservation: ", updatedReservation);
         return res.status(200).json(updatedReservation);
-
     } catch (error) {
         if (error.message === 'Reserva no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        console.error('Error al actualizar la reserva:', error);
+        console.error('Capa Controlador --> Error al actualizar la reserva:', error);
         return res.status(500).json({ error: 'Error al actualizar la reserva' });
     }
 
-}
+};
 
 export const deleteReservation = async (req, res) => {
     try {
@@ -160,16 +156,13 @@ export const deleteReservation = async (req, res) => {
         }
         const deletedReservation = await reservationsService.deleteReservation(id);
 
-
-        console.log(deletedReservation);
+        console.log("Capa Controlador ---> deleteReservation: ", deletedReservation);
         return res.status(200).json({ message: 'Reserva eliminada correctamente' });
-
-
     } catch (error) {
         if (error.message === 'Reserva no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        console.error('Error al eliminar la reserva:', error);
+        console.error('Capa Controlador --> Error al eliminar la reserva:', error);
         return res.status(500).json({ error: 'Error al eliminar la reserva' });
     }
-}
+};
