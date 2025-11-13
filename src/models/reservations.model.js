@@ -7,7 +7,7 @@ export const getAllReservations = async () => {
     try {
         const snapshot = await getDocs(reservationsCollection);
 
-        console.log('Capa Modelo ---> getAllReservations: ', snapshot.data());
+        console.log('Capa Modelo ---> getAllReservations: enviado');
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener las reservas:', error);
@@ -21,7 +21,7 @@ export const getReservationById = async (id) => {
 
         const snapshot = await getDoc(reservationRef);
 
-        console.log('Capa Modelo ---> getReservationById: ', snapshot.data());
+        console.log('Capa Modelo ---> getReservationById: enviado');
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener la reserva:', error);
@@ -53,7 +53,7 @@ export const createReservation = async (data) => {
         }
 
         const docRef = await addDoc(reservationsCollection, data);
-        console.log('Capa Modelo ---> createReservation: ', docRef.data());
+        console.log('Capa Modelo ---> createReservation: enviado');
         return { id: docRef.id, ...data };
 
     } catch (error) {
@@ -122,7 +122,7 @@ export const deleteReservation = async (id) => {
 
         await deleteDoc(reservationRef);
 
-        console.log('Capa Modelo ---> deleteReservation:', snapshot.data());
+        console.log('Capa Modelo ---> deleteReservation: enviado');
         return snapshot.data();
     } catch (error) {
         console.error('Capa Modelo --> Error al eliminar la reserva:', error);

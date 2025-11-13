@@ -38,7 +38,7 @@ export const authService = {
     verifyToken: (token) => {
         try {
             // Verifico el token
-            return jwt.verify(token, process.env.JWT_SECRET);
+            return jwt.verify(token, process.env.JWT_secret);
         } catch (error) {
             // Si el token es inválido o expiró
             throw new Error('Token inválido');

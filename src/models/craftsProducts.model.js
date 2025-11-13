@@ -7,7 +7,7 @@ export const getAllCraftsProducts = async () => {
     try {
         const snapshot = await getDocs(productsCollection);
 
-        console.log('Capa Modelo ---> getAllCraftsProducts: ', snapshot.data());
+        console.log('Capa Modelo ---> getAllCraftsProducts: enviado');
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener los productos:', error);
@@ -21,7 +21,7 @@ export const getCraftProductById = async (id) => {
 
         const snapshot = await getDoc(productRef);
 
-        console.log('Capa Modelo ---> getCraftProductById: ', snapshot.data());
+        console.log('Capa Modelo ---> getCraftProductById: enviado');
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener el producto:', error);
@@ -38,7 +38,7 @@ export const createCraftProduct = async (data) => {
 
         const docRef = await addDoc(productsCollection, data);
 
-        console.log('Capa Modelo ---> createCraftProduct: ', docRef.data());
+        console.log('Capa Modelo ---> createCraftProduct: enviado');
         return { id: docRef.id, ...data };
 
     } catch (error) {
@@ -56,7 +56,6 @@ export const updateCraftProduct = async (id, updateData) => {
         if (!snapshot.exists()) {
             console.warn(`No existe doc con doc.id='${id}', buscando por campo 'id' en documentos...`);
 
-            // Tomo todos los docs 
             const allSnapshot = await getDocs(productsCollection);
 
             const found = allSnapshot.docs.find(d => {
@@ -101,7 +100,7 @@ export const deleteCraftProduct = async (id) => {
         }
 
         await deleteDoc(productRef);
-        console.log('Capa Modelo ---> deleteCraftProduct:', snapshot.data());
+        console.log('Capa Modelo ---> deleteCraftProduct: enviado');
         return snapshot.data();
     } catch (error) {
         console.error('Capa Modelo --> Error al eliminar el producto:', error);

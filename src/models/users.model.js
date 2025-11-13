@@ -8,7 +8,7 @@ export const getAllUsers = async () => {
     try {
         const snapshot = await getDocs(usersCollection);
 
-        console.log('Capa Modelo ---> getAllUsers: ', snapshot.data());
+        console.log('Capa Modelo ---> getAllUsers: enviado',);
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener los usuarios:', error);
@@ -21,7 +21,7 @@ export const getUserById = async (id) => {
         const userRef = doc(usersCollection, id);
         const snapshot = await getDoc(userRef);
 
-        console.log('Capa Modelo ---> getUserById: ', snapshot.data());
+        console.log('Capa Modelo ---> getUserById: enviado',);
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener el usuario:', error);
@@ -30,20 +30,26 @@ export const getUserById = async (id) => {
 }
 
 export const getUserByEmail = async (email) => {
-    try {        
-        const snapshot = await getAllUsers();
-        
-        if (!snapshot || snapshot.empty || !snapshot.docs) {
-            console.log('No se encontraron documentos en la colección "users"');
+    try {
+        console.log('🎯 [MODELO] Buscando usuario con email:', email);
+
+        const users = await getAllUsers();
+
+        if (!users || users.length === 0) {
+            console.log('No hay usuarios en la colección');
             return null;
         }
-        const userDoc = snapshot.docs.find(doc => {
-            const userData = doc.data();
-            return userData.email === email;
-        });
 
-        console.log('Capa Modelo ---> getUserByEmail: ', userDoc.data());
-        return userDoc ? { id: userDoc.id, ...userDoc.data() } : null;
+        const user = users.find(user => user.email === email);
+
+        if (!user) {
+            console.log('No se encontró un usuario con el email proporcionado');
+            return null;
+        }
+
+        console.log('Capa Modelo ---> getUserByEmail: enviado: ', user);
+        return user || null;
+
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener el usuario:', error);
         return null;
@@ -80,7 +86,7 @@ export const createUser = async (data) => {
 
         const docRef = await addDoc(usersCollection, userData);
 
-        console.log('Capa Modelo ---> createUser: ', docRef.data());
+        console.log('Capa Modelo ---> createUser: enviado');
         return { id: docRef.id, ...userData, password: undefined };
     } catch (error) {
         console.error('Capa Modelo --> Error al crear el usuario en la base de datos:', error);
@@ -111,8 +117,8 @@ export const updateUser = async (id, data) => {
                 console.warn(`No se encontró documento con campo 'id' == ${id}`);
                 return null;
             }
-            
-            const updateData = { ...data };
+
+
             if (data.password) {
                 updateData.password = await bcrypt.hash(data.password, 12);
             }
@@ -124,8 +130,8 @@ export const updateUser = async (id, data) => {
 
         await updateDoc(userRef, updateData);
         const updatedSnapshot = await getDoc(userRef);
-        const updatedData = { 
-            id: updatedSnapshot.id, 
+        const updatedData = {
+            id: updatedSnapshot.id,
             ...updatedSnapshot.data(),
             password: undefined // No devuelvo la contraseña por seguridad
         };
@@ -151,11 +157,20 @@ export const deleteUser = async (id) => {
 
         await deleteDoc(userRef);
 
-        console.log('Capa Modelo ---> deleteUser: ', snapshot.data());
-        return { deleted: true, data: snapshot.data() };
+        console.log('Capa Modelo ---> deleteUser: enviado');
+        return {
+            deleted: true, data: {
+                id: snapshot.id,
+                ...snapshot.data()
+            }
+        };
     } catch (error) {
         console.error('Capa Modelo --> Error al eliminar el usuario en la base de datos:', error);
-        return null;
+        return {
+            deleted: false,
+            message: 'Error al eliminar el usuario',
+            error: error.message
+        };
     }
 }
 

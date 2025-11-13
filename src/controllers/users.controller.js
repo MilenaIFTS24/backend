@@ -112,7 +112,7 @@ export const updateUser = async (req, res) => {
         return res.status(400).json({ error: 'ID de usuario inválido' });
     }
 
-    const validation = usersService.validateUserData(req.body);
+    const validation = usersService.validateUserUpdateData(req.body);
 
     if (!validation.valid) {
         return res.status(400).json({
@@ -121,20 +121,11 @@ export const updateUser = async (req, res) => {
         });
     }
 
-    const { fullName, dateOfBirth, email, password, accountEnabled, phone, address, role } = req.body;
+    const cleanData = validation.cleanData;
 
     try {
-        const updatedUser = await usersService.updateUser(id, {
-            fullName,
-            dateOfBirth,
-            email,
-            password,
-            accountEnabled,
-            phone,
-            address,
-            role
-        });
-
+        const updatedUser = await usersService.updateUser(id, cleanData); 
+        
         console.log("Capa Controlador ---> updateUser: ", updatedUser);
         return res.status(200).json(updatedUser);
     } catch (error) {

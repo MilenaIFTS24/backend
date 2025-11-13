@@ -7,7 +7,7 @@ export const getAllOffers = async () => {
     try {
         const snapshot = await getDocs(offersCollection);
 
-        console.log('Capa Modelo ---> getAllOffers: ', snapshot.data());
+        console.log('Capa Modelo ---> getAllOffers: enviado');
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener las ofertas:', error);
@@ -21,7 +21,7 @@ export const getOfferById = async (id) => {
 
         const snapshot = await getDoc(offerRef);
 
-        console.log('Capa Modelo ---> getOfferById: ', snapshot.data());
+        console.log('Capa Modelo ---> getOfferById: enviado');
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener la oferta:', error);
@@ -32,18 +32,18 @@ export const getOfferById = async (id) => {
 export const createOffer = async (data) => {
     try {
 
-        if (!data || typeof data !== 'object') { // Si no existe data o no es un objeto
+        if (!data || typeof data !== 'object') { 
             throw new Error('Los datos de la oferta no son válidos');
         }
         if (data.applicableTo && Array.isArray(data.applicableTo)) {
             data.applicableTo = data.applicableTo.map(product =>
-                doc(db, product.collection, product.id) // ✅ SOLO el modelo crea referencias
+                doc(db, product.collection, product.id) 
             );
         }
 
         const docRef = await addDoc(offersCollection, data);
 
-        console.log('Capa Modelo ---> createOffer: ', docRef.data());
+        console.log('Capa Modelo ---> createOffer: enviado');
         return { id: docRef.id, ...data };
 
     } catch (error) {
@@ -80,7 +80,7 @@ export const updateOffer = async (id, updateData) => {
 
         if (updateData.applicableTo && Array.isArray(updateData.applicableTo)) {
             updateData.applicableTo = updateData.applicableTo.map(product =>
-                doc(db, product.collection, product.id) // ✅ SOLO el modelo crea referencias
+                doc(db, product.collection, product.id) 
             );
         }
         await updateDoc(offerRef, updateData);
@@ -110,7 +110,7 @@ export const deleteOffer = async (id) => {
         }
 
         await deleteDoc(offerRef);
-        console.log('Capa Modelo ---> deleteOffer: ', snapshot.data());
+        console.log('Capa Modelo ---> deleteOffer: enviado');
         return snapshot.data();
     } catch (error) {
         console.error('Capa Modelo --> Error al eliminar la oferta:', error);

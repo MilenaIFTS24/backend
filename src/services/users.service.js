@@ -70,8 +70,8 @@ export const updateUser = async (id, updateData) => {
 }
 
 export const deleteUser = async (id) => {
-    const deleteUser = await model.getUserById(id);
-    if (!deleteUser) {
+    const userToDelete = await model.getUserById(id);
+    if (!userToDelete) {
         throw new Error('Usuario no encontrado');
     }
     return await model.deleteUser(id);
@@ -172,63 +172,70 @@ export const validateUserData = (data) => {
 };
 
 export const validateUserUpdateData = (data) => {
-    const {
-        fullName, dateOfBirth, email, password, accountEnabled,
-        phone, address, role
-    } = data;
-
+    const cleanData = {};
     const errors = [];
 
-    // Verificar que al menos un campo esté presente para actualizar
-    if (fullName === undefined && dateOfBirth === undefined && email === undefined &&
-        password === undefined && accountEnabled === undefined && phone === undefined &&
-        address === undefined && role === undefined) {
+    // Filtro solo campos definidos - Firestore no acepta campos undefined
+    if (data.fullName !== undefined) cleanData.fullName = data.fullName;
+    if (data.dateOfBirth !== undefined) cleanData.dateOfBirth = data.dateOfBirth;
+    if (data.email !== undefined) cleanData.email = data.email;
+    if (data.password !== undefined) cleanData.password = data.password;
+    if (data.accountEnabled !== undefined) cleanData.accountEnabled = data.accountEnabled;
+    if (data.phone !== undefined) cleanData.phone = data.phone;
+    if (data.address !== undefined) cleanData.address = data.address;
+    if (data.role !== undefined) cleanData.role = data.role;
+
+    // Valido que al menos un campo esté presente 
+    let hasFields = false;
+    if (cleanData.fullName) hasFields = true;
+    else if (cleanData.dateOfBirth) hasFields = true;
+    else if (cleanData.email) hasFields = true;
+    else if (cleanData.password) hasFields = true;
+    else if (cleanData.accountEnabled !== undefined) hasFields = true;
+    else if (cleanData.phone) hasFields = true;
+    else if (cleanData.address) hasFields = true;
+    else if (cleanData.role) hasFields = true;
+
+    if (!hasFields) {
         errors.push('Debes proporcionar al menos un campo para actualizar el usuario.');
-        return { valid: false, message: 'Debes proporcionar al menos un campo para actualizar el usuario.' };
+        return { valid: false, errors, cleanData: {} };
     }
 
-    // --- Validación del campo "fullName" ---
-    if (fullName !== undefined && (typeof fullName !== 'string' || fullName.trim().length < 1)) {
+    // --- Validaciones de cada campo (solo si están presentes) ---
+    if (cleanData.fullName && (typeof cleanData.fullName !== 'string' || cleanData.fullName.trim().length < 1)) {
         errors.push('El campo "fullName" debe ser un string no vacío.');
     }
 
-    // --- Validación del campo "dateOfBirth" ---
     const dateRegex = /^\d{2}-\d{2}-\d{2}$/;
-    if (dateOfBirth !== undefined && (typeof dateOfBirth !== 'string' || !dateRegex.test(dateOfBirth))) {
-        errors.push('El campo "dateOfBirth" debe tener formato DD-MM-YY (ej: 20-05-90).');
+    if (cleanData.dateOfBirth && (typeof cleanData.dateOfBirth !== 'string' || !dateRegex.test(cleanData.dateOfBirth))) {
+        errors.push('El campo "dateOfBirth" debe tener formato DD-MM-YY.');
     }
 
-    // --- Validación del campo "email" ---
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email !== undefined && (typeof email !== 'string' || !emailRegex.test(email))) {
+    if (cleanData.email && (typeof cleanData.email !== 'string' || !emailRegex.test(cleanData.email))) {
         errors.push('El campo "email" debe ser un email válido.');
     }
 
-    // --- Validación del campo "password" ---
-    if (password !== undefined && (typeof password !== 'string' || password.trim().length < 6)) {
+    if (cleanData.password && (typeof cleanData.password !== 'string' || cleanData.password.trim().length < 6)) {
         errors.push('El campo "password" debe tener al menos 6 caracteres.');
     }
 
-    // --- Validación del campo "accountEnabled" ---
-    if (accountEnabled !== undefined && typeof accountEnabled !== 'boolean') {
-        errors.push('El campo "accountEnabled" debe ser un valor booleano (true/false).');
+    if (cleanData.accountEnabled !== undefined && typeof cleanData.accountEnabled !== 'boolean') {
+        errors.push('El campo "accountEnabled" debe ser un valor booleano.');
     }
 
-    // --- Validación del campo "phone" ---
-    if (phone !== undefined && typeof phone !== 'string') {
+    if (cleanData.phone && typeof cleanData.phone !== 'string') {
         errors.push('El campo "phone" debe ser un string.');
     }
 
-    // --- Validación del campo "address" ---
-    if (address !== undefined && typeof address !== 'string') {
+    if (cleanData.address && typeof cleanData.address !== 'string') {
         errors.push('El campo "address" debe ser un string.');
     }
 
-    // --- Validación del campo "role" ---
     const validRoles = ['user', 'admin'];
-    if (role !== undefined && (typeof role !== 'string' || !validRoles.includes(role))) {
-        errors.push(`El campo "role" debe ser uno de: ${validRoles.join(', ')}.`);
+    if (cleanData.role && (typeof cleanData.role !== 'string' || !validRoles.includes(cleanData.role))) {
+        errors.push('El campo "role" debe ser "user" o "admin".');
     }
 
-    return { valid: errors.length === 0, errors };
+    return { valid: errors.length === 0, errors, cleanData };
 };

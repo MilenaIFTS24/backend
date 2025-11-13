@@ -7,7 +7,7 @@ export const getAllTeasProducts = async () => {
     try {
         const snapshot = await getDocs(productsCollection);
 
-        console.log('Capa Modelo ---> getAllTeasProducts: ', snapshot.data());
+        console.log('Capa Modelo ---> getAllTeasProducts: enviado');
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener los productos:', error);
@@ -21,7 +21,7 @@ export const getTeaProductById = async (id) => {
 
         const snapshot = await getDoc(productRef);
 
-        console.log('Capa Modelo ---> getTeaProductById: ', snapshot.data());
+        console.log('Capa Modelo ---> getTeaProductById: enviado');
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
         console.error('Capa Modelo --> Error al obtener el producto:', error);
@@ -37,7 +37,7 @@ export const createTeaProduct = async (data) => {
 
         const docRef = await addDoc(productsCollection, data);
 
-        console.log('Capa Modelo ---> createTeaProduct: ', docRef.data());
+        console.log('Capa Modelo ---> createTeaProduct: enviado');
         return { id: docRef.id, ...data };
 
     } catch (error) {
@@ -98,7 +98,7 @@ export const deleteTeaProduct = async (id) => {
 
         await deleteDoc(productRef);
 
-        console.log('Capa Modelo ---> deleteTeaProduct:', snapshot.data());
+        console.log('Capa Modelo ---> deleteTeaProduct: enviado');
         return snapshot.data();
     } catch (error) {
         console.error('Capa Modelo --> Error al eliminar el producto:', error);
