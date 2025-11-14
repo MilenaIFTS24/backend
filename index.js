@@ -21,6 +21,13 @@ app.use(cors());
 
 app.use(requestLogger); //Middleware de log con información de la solicitud
 
+app.get('/', (req, res) => {
+  res.json({ mensaje: 'API funcionando correctamente en ruta: /' });
+});
+app.get('/api', (req, res) => {
+  res.json({ mensaje: 'API funcionando correctamente en ruta: /api' });
+});
+
 app.use('/api/auth', authRouter);
 app.use("/api/products/teas", teasProductsRouter); // Prefijo /api, buenas prácticas para versionamiento.
 app.use("/api/products/crafts", craftsProductsRouter);

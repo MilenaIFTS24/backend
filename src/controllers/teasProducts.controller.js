@@ -1,17 +1,18 @@
 import * as teasProductsService from '../services/teasProducts.service.js';
-
+import { log, logError } from '../utils/logger.utils.js';
 export const getTeasProducts = async (req, res) => { //Exportación nombrada (no default)
     try {
         const products = await teasProductsService.getAllTeasProducts();
 
         if (products.length === 0) {
+            log('Controlador', 'getTeasProducts', 'No hay productos disponibles');
             return res.status(404).json({ error: 'No hay productos disponibles' });
         }
 
-        console.log("Capa Controlador ---> getTeasProducts: ", products);
+        log('Controlador', 'getTeasProducts', 'Productos obtenidos', products);
         return res.status(200).json(products);
     } catch (error) {
-        console.error('Capa Controlador --> Error al obtener los productos:', error);
+        logError('Controlador', 'getTeasProducts', error, 'Error al obtener los productos');
         return res.status(500).json({ error: 'Error al obtener los productos' });
     }
 };
@@ -20,17 +21,18 @@ export const getTeaProductById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
+            log('Controlador', 'getTeaProductById', 'ID de producto inválido');
             return res.status(400).json({ error: 'ID de producto inválido' });
         }
         const product = await teasProductsService.getTeaProductById(id);
 
-        console.log("Capa Controlador ---> getTeaProductById: ", product);
+        log('Controlador', 'getTeaProductById', 'Producto obtenido', product);
         return res.status(200).json(product);
     } catch (error) {
         if (error.message === 'Producto no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        console.error('Capa Controlador --> Error al obtener el producto:', error);
+        logError('Controlador', 'getTeaProductById', error, 'Error al obtener el producto');
         return res.status(500).json({ error: 'Error al obtener el producto' });
     }
 };
@@ -39,25 +41,27 @@ export const searchTeaProductByName = async (req, res) => {
     const { name } = req.query;
 
     if (!name || typeof name !== 'string' || name.trim() === '') {
+        log('Controlador', 'searchTeaProductByName', 'Se requiere el query param << name >>');
         return res.status(400).json({ error: 'Se requiere el query param << name >>' });
     }
 
     try {
         const filteredProducts = await teasProductsService.searchTeaProductByName(name);
 
-        console.log('Capa Controlador ---> name: ', name);
-        console.log('Capa Controlador ---> searchTeaProductByName: ', filteredProducts);
+        log('Controlador', 'searchTeaProductByName', 'name', name);
+        log('Controlador', 'searchTeaProductByName', 'filteredProducts', filteredProducts);
         return res.status(200).json(filteredProducts);
     } catch (error) {
-        console.error('Capa Controlador --> Error al buscar el producto por nombre:', error);
+        logError('Controlador', 'searchTeaProductByName', error, 'Error al buscar el producto por nombre');
         return res.status(500).json({ error: 'Error al buscar el producto por nombre' });
     }
-}
+};
 
 export const createTeaProduct = async (req, res) => {
     const validation = teasProductsService.validateProductData(req.body);
 
     if (!validation.valid) {
+        log('Controlador', 'createTeaProduct', 'Datos inválidos', validation.errors);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -75,10 +79,10 @@ export const createTeaProduct = async (req, res) => {
             stock,
         });
 
-        console.log("Capa Controlador ---> createTeaProduct: ", newProduct);
+        log('Controlador', 'createTeaProduct', 'Producto creado', newProduct);
         return res.status(201).json(newProduct);
     } catch (error) {
-        console.error('Capa Controlador --> Error al crear el producto:', error);
+        logError('Controlador', 'createTeaProduct', error, 'Error al crear el producto');
         return res.status(500).json({ error: 'Error al crear el producto' });
     }
 };
@@ -86,12 +90,14 @@ export const createTeaProduct = async (req, res) => {
 export const updateTeaProduct = async (req, res) => {
     const { id } = req.params;
     if (!id) {
+        log('Controlador', 'updateTeaProduct', 'ID de producto inválido');
         return res.status(400).json({ error: 'ID de producto inválido' });
     }
 
     const validation = teasProductsService.validateUpdateData(req.body);
 
     if (!validation.valid) {
+        log('Controlador', 'updateTeaProduct', 'Datos inválidos', validation.errors);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -104,16 +110,17 @@ export const updateTeaProduct = async (req, res) => {
         const updatedProduct = await teasProductsService.updateTeaProduct(id, { name, brand, description, price, stock });
 
         if (updatedProduct === null) {
+            log('Controlador', 'updateTeaProduct', 'Producto no encontrado');
             return res.status(404).json({ error: 'Producto no encontrado' });
         }
 
-        console.log("Capa Controlador ---> updateTeaProduct: ", updatedProduct);
+        log('Controlador', 'updateTeaProduct', 'Producto actualizado', updatedProduct);
         return res.status(200).json(updatedProduct);
     } catch (error) {
         if (error.message === 'Producto no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        console.error('Capa Controlador --> Error al actualizar el producto:', error);
+        logError('Controlador', 'updateTeaProduct', error, 'Error al actualizar el producto');
         return res.status(500).json({ error: 'Error al actualizar el producto' });
 
     }
@@ -123,17 +130,18 @@ export const deleteTeaProduct = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
+            log('Controlador', 'deleteTeaProduct', 'ID de producto inválido');
             return res.status(400).json({ error: 'ID de producto inválido' });
         }
         const deletedProduct = await teasProductsService.deleteTeaProduct(id);
 
-        console.log("Capa Controlador ---> deleteTeaProduct: ", deletedProduct);
+        log('Controlador', 'deleteTeaProduct', 'Producto eliminado', deletedProduct);
         return res.status(200).json({ message: 'Producto eliminado correctamente' });
     } catch (error) {
         if (error.message === 'Producto no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        console.error('Capa Controlador --> Error al eliminar el producto:', error);
+        logError('Controlador', 'deleteTeaProduct', error, 'Error al eliminar el producto');
         return res.status(500).json({ error: 'Error al eliminar el producto' });
     }
 };

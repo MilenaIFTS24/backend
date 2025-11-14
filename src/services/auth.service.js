@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { authenticateUser } from "./users.service.js";
+import { log, logError } from '../utils/logger.utils.js';
 
 export const authService = {
     login: async (email, password) => {
@@ -32,15 +33,18 @@ export const authService = {
                 address: user.address
             }
         };
+        log('Servicio', 'login', 'Usuario logueado exitosamente');
         return response;
     },
 
     verifyToken: (token) => {
         try {
             // Verifico el token
+            log('Servicio', 'verifyToken', 'Token verificado exitosamente');
             return jwt.verify(token, process.env.JWT_secret);
         } catch (error) {
             // Si el token es inválido o expiró
+            logError('Servicio', 'verifyToken', error, 'Token inválido');
             throw new Error('Token inválido');
         }
     },

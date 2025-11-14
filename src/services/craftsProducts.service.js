@@ -1,18 +1,24 @@
 import * as model from "../models/craftsProducts.model.js";
+import { log } from '../utils/logger.utils.js';
 
 export const getAllCraftsProducts = async () => {
+    log('Servicio', 'getAllCraftsProducts', 'Productos enviados');
     return await model.getAllCraftsProducts();
 };
 
 export const getCraftProductById = async (id) => {
     const product = await model.getCraftProductById(id);
     if (!product) {
+        log('Servicio', 'getCraftProductById', 'Producto no encontrado');
         throw new Error('Producto no encontrado');
     }
+
+    log('Servicio', 'getCraftProductById', 'Producto enviado');
     return product;
 };
 
 export const createCraftProduct = async (data) => {
+    log('Servicio', 'createCraftProduct', 'Enviado');
     return await model.createCraftProduct(data);
 };
 
@@ -20,6 +26,7 @@ export const searchCraftProductByName = async (name) => {
     const products = await model.getAllCraftsProducts();
 
     if (!Array.isArray(products)) {
+        log('Servicio', 'searchCraftProductByName', 'Error interno al obtener productos');
         throw new Error('Error interno al obtener productos');
     }
 
@@ -29,34 +36,42 @@ export const searchCraftProductByName = async (name) => {
     );
 
     if (filteredProducts.length === 0) {
+        log('Servicio', 'searchCraftProductByName', 'No se encontraron productos con ese nombre');
         throw new Error('No se encontraron productos con ese nombre');
     }
 
+    log('Servicio', 'searchCraftProductByName', 'Producto/s enviados');
     return filteredProducts;
-}
+};
 
 export const updateCraftProduct = async (id, updateData) => {
 
     const updateProduct = await model.getCraftProductById(id);
     if (!updateProduct) {
+        log('Servicio', 'updateCraftProduct', 'Producto no encontrado');
         throw new Error('Producto no encontrado');
     }
 
+    log('Servicio', 'updateCraftProduct', 'Enviado');
     return await model.updateCraftProduct(id, updateData);
-}
+};
 
 export const deleteCraftProduct = async (id) => {
     const deleteProduct = await model.getCraftProductById(id);
     if (!deleteProduct) {
+        log('Servicio', 'deleteCraftProduct', 'Producto no encontrado');
         throw new Error('Producto no encontrado');
     }
+
+    log('Servicio', 'deleteCraftProduct', 'Enviado');
     return await model.deleteCraftProduct(id);
-}
+};
 
 
 export const validateProductData = (data) => {
     const errors = [];
 
+    log('Servicio', 'validateProductData', 'Validando datos del producto...');
     // Verifico si se recibió algún dato
     if (!data) {
         errors.push("No se proporcionó data del producto");
@@ -111,6 +126,7 @@ export const validateUpdateData = (data) => {
     const { name, brandArtist, creationDate, description, ecoFriendly, price, stock } = data;
     const errors = [];
 
+    log('Servicio', 'validateUpdateData', 'Validando datos para actualizar el producto...');
     // Verificar que al menos un campo esté presente para actualizar
     if (!name && !brandArtist && !creationDate && !description &&
         ecoFriendly === undefined && !price && stock === undefined) {

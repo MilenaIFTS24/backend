@@ -1,14 +1,19 @@
 import * as model from "../models/events.model.js";
+import { log } from '../utils/logger.utils.js';
 
 export const getAllEvents = async () => {
+    log('Servicio', 'getAllEvents', 'Eventos enviados');
     return await model.getAllEvents();
 };
 
 export const getEventById = async (id) => {
     const event = await model.getEventById(id);
     if (!event) {
+        log('Servicio', 'getEventById', 'Evento no encontrado');
         throw new Error('Evento no encontrado');
     }
+
+    log('Servicio', 'getEventById', 'Evento enviado');
     return event;
 };
 
@@ -16,6 +21,7 @@ export const searchEventByTitle = async (title) => {
     const events = await model.getAllEvents();
 
     if (!Array.isArray(events)) {
+        log('Servicio', 'searchEventByTitle', 'Error interno al obtener eventos');
         throw new Error('Error interno al obtener eventos');
     }
 
@@ -25,36 +31,45 @@ export const searchEventByTitle = async (title) => {
     );
 
     if (filteredEvents.length === 0) {
+        log('Servicio', 'searchEventByTitle', 'No se encontraron eventos con ese título');
         throw new Error('No se encontraron eventos con ese título');
     }
 
+    log('Servicio', 'searchEventByTitle', 'Evento/s enviados');
     return filteredEvents;
-}
-
+};
 
 export const createEvent = async (data) => {
+    log('Servicio', 'createEvent', 'Enviado');
     return await model.createEvent(data);
 };
 
 export const updateEvent = async (id, data) => {
     const event = await model.getEventById(id);
     if (!event) {
+        log('Servicio', 'updateEvent', 'Evento no encontrado');
         throw new Error('Evento no encontrado');
     }
+
+    log('Servicio', 'updateEvent', 'Enviado');
     return await model.updateEvent(id, data);
 };
 
 export const deleteEvent = async (id) => {
     const event = await model.getEventById(id);
     if (!event) {
+        log('Servicio', 'deleteEvent', 'Evento no encontrado');
         throw new Error('Evento no encontrado');
     }
+
+    log('Servicio', 'deleteEvent', 'Enviado');
     return await model.deleteEvent(id);
 };
 
 export const validateEventData = (data) => {
     const errors = [];
 
+    log('Servicio', 'validateEventData', 'Validando datos del evento...');
     // Verifico si se recibió algún dato
     if (!data) {
         errors.push("No se proporcionó data del evento");
@@ -151,6 +166,8 @@ export const validateEventUpdateData = (data) => {
 
     const errors = [];
 
+    log('Servicio', 'validateEventUpdateData', 'Validando datos para actualizar el evento...');
+    
     // Verificar que al menos un campo esté presente para actualizar
     if (!title && !date && !startTime && !endTime &&
         registrationRequired === undefined && isFree === undefined &&

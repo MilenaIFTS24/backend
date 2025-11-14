@@ -1,38 +1,39 @@
 import * as offersService from '../services/offers.service.js';
+import { log, logError } from '../utils/logger.utils.js';
 
 export const getOffers = async (req, res) => {
     try {
         const offers = await offersService.getAllOffers();
 
         if (offers.length === 0) {
+            log('Controlador', 'getOffers', 'No hay ofertas disponibles');
             return res.status(404).json({ error: 'No hay ofertas disponibles' });
         }
 
-        console.log("Capa Controlador ---> getOffers: ", offers);
+        log('Controlador', 'getOffers', 'Ofertas obtenidas', offers);
         return res.status(200).json(offers);
-
     } catch (error) {
-        console.error('Capa Controlador --> Error al obtener las ofertas:', error);
+        logError('Controlador', 'getOffers', error, 'Error al obtener las ofertas');
         return res.status(500).json({ error: 'Error al obtener las ofertas' });
     }
 };
 
 export const getOfferById = async (req, res) => {
     try {
-
         const { id } = req.params;
         if (!id) {
+            log('Controlador', 'getOfferById', 'ID de oferta inválido');
             return res.status(400).json({ error: 'ID de oferta inválido' });
         }
         const offer = await offersService.getOfferById(id);
 
-        console.log("Capa Controlador ---> getOfferById: ", offer);
+        log('Controlador', 'getOfferById', 'Oferta obtenida', offer);
         return res.status(200).json(offer);
     } catch (error) {
         if (error.message === 'Oferta no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        console.error('Capa Controlador --> Error al obtener la oferta:', error);
+        logError('Controlador', 'getOfferById', error, 'Error al obtener la oferta');
         return res.status(500).json({ error: 'Error al obtener la oferta' });
     }
 };
@@ -41,25 +42,27 @@ export const searchOfferByTitle = async (req, res) => {
     const { title } = req.query;
 
     if (!title || typeof title !== 'string' || title.trim() === '') {
+        log('Controlador', 'searchOfferByTitle', 'Se requiere el query param << title >>');
         return res.status(400).json({ error: 'Se requiere el query param << title >>' });
     }
 
     try {
         const filteredOffers = await offersService.searchOfferByTitle(title);
 
-        console.log('Capa Controlador ---> title: ', title);
-        console.log('Capa Controlador ---> searchOfferByTitle: ', filteredOffers);
+        log('Controlador', 'searchOfferByTitle', 'title', title);
+        log('Controlador', 'searchOfferByTitle', 'filteredOffers', filteredOffers);
         return res.status(200).json(filteredOffers);
     } catch (error) {
-        console.error('Capa Controlador --> Error al buscar la oferta por titulo:', error);
+        logError('Controlador', 'searchOfferByTitle', error, 'Error al buscar la oferta por titulo');
         return res.status(500).json({ error: 'Error al buscar la oferta por titulo' });
     }
-}
+};
 
 export const createOffer = async (req, res) => {
     const validation = offersService.validateOfferData(req.body);
 
     if (!validation.valid) {
+        log('Controlador', 'createOffer', 'Datos inválidos', validation.errors);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -69,7 +72,6 @@ export const createOffer = async (req, res) => {
     const { title, description, applicableTo, minimumPurchase, isLimited, limit, state, promotionalCode, startDate, endDate } = req.body;
 
     try {
-
         const newOffer = await offersService.createOffer({
             title,
             description,
@@ -83,23 +85,25 @@ export const createOffer = async (req, res) => {
             endDate,
         });
 
-        console.log("Capa Controlador ---> createOffer: ", newOffer);
+        log('Controlador', 'createOffer', 'Oferta creada', newOffer);
         return res.status(201).json(newOffer);
     } catch (error) {
-        console.error('Capa Controlador --> Error al crear la oferta:', error);
+        logError('Controlador', 'createOffer', error, 'Error al crear la oferta');
         return res.status(500).json({ error: 'Error al crear la oferta' });
     }
-}
+};
 
 export const updateOffer = async (req, res) => {
     const { id } = req.params;
     if (!id) {
+        log('Controlador', 'updateOffer', 'ID de oferta inválido');
         return res.status(400).json({ error: 'ID de oferta inválido' });
     }
 
     const validation = offersService.validateUpdateData(req.body);
 
     if (!validation.valid) {
+        log('Controlador', 'updateOffer', 'Datos inválidos', validation.errors);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -111,13 +115,13 @@ export const updateOffer = async (req, res) => {
     try {
         const updatedProduct = await offersService.updateOffer(id, { title, description, applicableTo, minimumPurchase, isLimited, limit, state, promotionalCode, startDate, endDate });
 
-        console.log("Capa Controlador ---> updateOffer: ", updatedProduct);
+        log('Controlador', 'updateOffer', 'Oferta actualizada', updatedProduct);
         return res.status(200).json(updatedProduct);
     } catch (error) {
         if (error.message === 'Oferta no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        console.error('Capa Controlador --> Error al actualizar la oferta:', error);
+        logError('Controlador', 'updateOffer', error, 'Error al actualizar la oferta');
         return res.status(500).json({ error: 'Error al actualizar la oferta' });
     }
 };
@@ -126,17 +130,18 @@ export const deleteOffer = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
+            log('Controlador', 'deleteOffer', 'ID de oferta inválido');
             return res.status(400).json({ error: 'ID de oferta inválido' });
         }
         const deletedOffer = await offersService.deleteOffer(id);
 
-        console.log("Capa Controlador ---> deleteOffer: ", deletedOffer);
+        log('Controlador', 'deleteOffer', 'Oferta eliminada', deletedOffer);
         return res.status(200).json({ message: 'Oferta eliminada correctamente' });
     } catch (error) {
         if (error.message === 'Oferta no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        console.error('Capa Controlador --> Error al eliminar la oferta:', error);
+        logError('Controlador', 'deleteOffer', error, 'Error al eliminar la oferta');
         return res.status(500).json({ error: 'Error al eliminar la oferta' });
     }
 };

@@ -1,14 +1,18 @@
 import * as model from "../models/offers.model.js";
+import { log, logError } from '../utils/logger.utils.js';
 
 export const getAllOffers = async () => {
+    log('Servicio', 'getAllOffers', 'Ofertas enviadas');
     return await model.getAllOffers();
 };
 
 export const getOfferById = async (id) => {
     const offer = await model.getOfferById(id);
     if (!offer) {
+        log('Servicio', 'getOfferById', 'Oferta no encontrada');
         throw new Error('Oferta no encontrada');
     }
+    log('Servicio', 'getOfferById', 'Oferta enviada');
     return offer;
 };
 
@@ -17,6 +21,7 @@ export const searchOfferByTitle = async (title) => {
     const offers = await model.getAllOffers();
 
     if (!Array.isArray(offers)) {
+        log('Servicio', 'searchOfferByTitle', 'Error interno al obtener ofertas');
         throw new Error('Error interno al obtener ofertas');
     }
 
@@ -26,54 +31,65 @@ export const searchOfferByTitle = async (title) => {
     );
 
     if (filteredOffers.length === 0) {
+        log('Servicio', 'searchOfferByTitle', 'No se encontraron ofertas con ese titulo');
         throw new Error('No se encontraron ofertas con ese titulo');
     }
 
+    log('Servicio', 'searchOfferByTitle', 'Oferta/s enviadas');
     return filteredOffers;
-}
+};
 
 export const createOffer = async (data) => {
     try {
-        if (data.applicableTo && Array.isArray(data.applicableTo)) {            
+        if (data.applicableTo && Array.isArray(data.applicableTo)) {
+            log('Servicio', 'createOffer', 'Preparando referencia de/l los producto/s ', data.applicableTo);            
             data.applicableTo = prepareApplicableTo(data.applicableTo);
         }
 
+        log('Servicio', 'createOffer', 'Enviado');
         return await model.createOffer(data);
     } catch (error) {
+        logError('Servicio', 'createOffer', error, 'Error creando oferta');
         throw new Error(`Error creando oferta: ${error.message}`);
     }
-
 };
 
 export const updateOffer = async (id, updateData) => {
     const updateOffer = await model.getOfferById(id);
     if (!updateOffer) {
+        log('Servicio', 'updateOffer', 'Oferta no encontrada');
         throw new Error('Oferta no encontrada');
     }
 
-    if (updateData.applicableTo && Array.isArray(updateData.applicableTo)) {
-        // Validaciones de negocio
+    if (updateData.applicableTo && Array.isArray(updateData.applicableTo)) {        
         if (updateData.applicableTo.length === 0) {
+            log('Servicio', 'updateOffer', 'Debe haber al menos un producto aplicable');
             throw new Error('Debe haber al menos un producto aplicable');
         }
 
+        log('Servicio', 'updateOffer', 'Preparando referencia de/l los producto/s ', updateData.applicableTo);
         updateData.applicableTo = prepareApplicableTo(updateData.applicableTo);
     }
 
+    log('Servicio', 'updateOffer', 'Enviado');
     return await model.updateOffer(id, updateData);
 };
 
 export const deleteOffer = async (id) => {
     const deleteOffer = await model.getOfferById(id);
     if (!deleteOffer) {
+        log('Servicio', 'deleteOffer', 'Oferta no encontrada');
         throw new Error('Oferta no encontrada');
     }
+
+    log('Servicio', 'deleteOffer', 'Enviado');
     return await model.deleteOffer(id);
 };
 
 export const validateOfferData = (data) => {
     const errors = [];
 
+    log('Servicio', 'validateOfferData', 'Validando datos de la oferta...');
     // Verifico si se recibió algún dato
     if (!data) {
         errors.push("No se proporcionó data de la oferta");
@@ -159,6 +175,7 @@ export const validateUpdateData = (data) => {
     const { title, description, applicableTo, minimumPurchase, isLimited, limit, state, promotionalCode, startDate, endDate } = data;
     const errors = [];
 
+    log('Servicio', 'validateUpdateData', 'Validando datos para actualizar la oferta...');
     // Verificar que al menos un campo esté presente para actualizar
     if (!title && !description && !applicableTo && minimumPurchase === undefined && isLimited === undefined && limit === undefined && !state && !promotionalCode && !startDate && !endDate) {
         errors.push('Debes proporcionar al menos un campo para actualizar la oferta.');
@@ -266,6 +283,7 @@ const prepareApplicableTo = (applicableTo) => { //Preparo la información de los
 
         const collectionName = collectionMap[product.type];
         if (!collectionName) {
+            log('Servicio', 'prepareApplicableTo', 'Tipo de producto no válido', product.type);
             throw new Error(`Tipo de producto no válido: ${product.type}`);
         }
 

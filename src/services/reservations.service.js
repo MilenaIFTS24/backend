@@ -1,14 +1,19 @@
+import { log } from '../utils/logger.utils.js';
 import * as model from "../models/reservations.model.js";
 
 export const getAllReservations = async () => {
+    log('Servicio', 'getAllReservations', 'Reservas enviadas');
     return await model.getAllReservations();
 };
 
 export const getReservationById = async (id) => {
     const reservation = await model.getReservationById(id);
     if (!reservation) {
+        log('Servicio', 'getReservationById', 'Reserva no encontrada');
         throw new Error('Reserva no encontrada');
     }
+
+    log('Servicio', 'getReservationById', 'Reserva enviada');
     return reservation;
 };
 
@@ -16,11 +21,13 @@ export const createReservation = async (data) => {
     try {
 
         if (data.products && Array.isArray(data.products)) {
+            log('Servicio', 'createReservation', 'Preparando referencia de/l los producto/s ', data.products);
             data.products = prepareProducts(data.products);
         }
 
         return await model.createReservation(data);
     } catch (error) {
+        logError('Servicio', 'createReservation', error, 'Error creando reserva');
         throw new Error(`Error creando reserva: ${error.message}`);
     }
 };
@@ -33,25 +40,33 @@ export const updateReservation = async (id, updateData) => {
 
     if (updateData.products && Array.isArray(updateData.products)) {
         if (updateData.products.length === 0) {
+            log('Servicio', 'updateReservation', 'Debe haber al menos un producto en la reserva');
             throw new Error('Debe haber al menos un producto en la reserva');
         }
+        log('Servicio', 'updateReservation', 'Preparando referencia de/l los producto/s ', updateData.products);
         updateData.products = prepareProducts(updateData.products);
     }
 
+    log('Servicio', 'updateReservation', 'Enviado');
     return await model.updateReservation(id, updateData);
 };
 
 export const deleteReservation = async (id) => {
     const deleteReservation = await model.getReservationById(id);
     if (!deleteReservation) {
+        log('Servicio', 'deleteReservation', 'Reserva no encontrada');
         throw new Error('Reserva no encontrada');
     }
+
+    log('Servicio', 'deleteReservation', 'Enviado');
     return await model.deleteReservation(id);
-}
+};
 
 export const validateReservationData = (data) => {
     const errors = [];
 
+    log('Servicio', 'validateReservationData', 'Validando datos de la reserva...');
+    // Verifico si se recibieron datos
     if (!data) {
         errors.push("No se proporcionó data de la reserva");
         return { valid: false, errors };
@@ -159,6 +174,8 @@ export const validateReservationUpdateData = (data) => {
     } = data;
 
     const errors = [];
+
+    log('Servicio', 'validateReservationUpdateData', 'Validando datos para actualizar la reserva...');
 
     // Verificar que al menos un campo esté presente para actualizar
     if (userId === undefined && products === undefined && totalAmount === undefined &&
@@ -276,6 +293,7 @@ export const prepareProducts = (products) => {
 
         const collectionName = collectionMap[product.type];
         if (!collectionName) {
+            log('Servicio', 'prepareProducts', 'Tipo de producto no válido', product.type);
             throw new Error(`Tipo de producto no válido: ${product.type}`);
         }
 

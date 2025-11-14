@@ -1,5 +1,6 @@
 import { db } from "../config/data.js";
 import { collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import { log, logError } from '../utils/logger.utils.js';
 
 const offersCollection = collection(db, "offers");
 
@@ -7,10 +8,10 @@ export const getAllOffers = async () => {
     try {
         const snapshot = await getDocs(offersCollection);
 
-        console.log('Capa Modelo ---> getAllOffers: enviado');
+        log('Modelo', 'getAllOffers', 'Ofertas obtenidas exitosamente');
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
-        console.error('Capa Modelo --> Error al obtener las ofertas:', error);
+        logError('Modelo', 'getAllOffers', error, 'Error al obtener las ofertas');
         return [];
     }
 }
@@ -21,10 +22,10 @@ export const getOfferById = async (id) => {
 
         const snapshot = await getDoc(offerRef);
 
-        console.log('Capa Modelo ---> getOfferById: enviado');
+        log('Modelo', 'getOfferById', 'Oferta obtenida exitosamente');
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
-        console.error('Capa Modelo --> Error al obtener la oferta:', error);
+        logError('Modelo', 'getOfferById', error, 'Error al obtener la oferta');
         return null;
     }
 }
@@ -32,22 +33,24 @@ export const getOfferById = async (id) => {
 export const createOffer = async (data) => {
     try {
 
-        if (!data || typeof data !== 'object') { 
+        if (!data || typeof data !== 'object') {
+            log('Modelo', 'createOffer', 'Los datos de la oferta no son válidos'); 
             throw new Error('Los datos de la oferta no son válidos');
         }
         if (data.applicableTo && Array.isArray(data.applicableTo)) {
             data.applicableTo = data.applicableTo.map(product =>
+                log('Modelo', 'createOffer', 'Creando referencia para el producto ', product),
                 doc(db, product.collection, product.id) 
             );
         }
 
         const docRef = await addDoc(offersCollection, data);
 
-        console.log('Capa Modelo ---> createOffer: enviado');
+        log('Modelo', 'createOffer', 'Oferta creada exitosamente');
         return { id: docRef.id, ...data };
 
     } catch (error) {
-        console.error('Capa Modelo --> Error al crear la oferta en la base de datos:', error);
+        logError('Modelo', 'createOffer', error, 'Error al crear la oferta en la base de datos');
         throw new Error('Error al crear la oferta en la base de datos');
     }
 }
@@ -58,9 +61,8 @@ export const updateOffer = async (id, updateData) => {
         let snapshot = await getDoc(offerRef);
 
         if (!snapshot.exists()) {
-            console.warn(`No existe doc con doc.id='${id}', buscando por campo 'id' en documentos...`);
+            log('Modelo', 'updateOffer', `No existe doc con doc.id='${id}', buscando por campo 'id' en documentos...`);
 
-            // Tomo todos los docs 
             const allSnapshot = await getDocs(offersCollection);
 
             const found = allSnapshot.docs.find(d => {
@@ -69,13 +71,13 @@ export const updateOffer = async (id, updateData) => {
             });
 
             if (!found) {
-                console.warn(`No se encontró documento con campo 'id' == ${id}`);
+                log('Modelo', 'updateOffer', `No se encontró documento con campo 'id' == ${id}`);
                 return null;
             }
 
             offerRef = doc(offersCollection, found.id);
             snapshot = await getDoc(offerRef);
-            console.log(`Encontrado doc con doc.id='${found.id}'`);
+            log('Modelo', 'updateOffer', `Encontrado doc con doc.id='${found.id}'`);
         }
 
         if (updateData.applicableTo && Array.isArray(updateData.applicableTo)) {
@@ -88,15 +90,13 @@ export const updateOffer = async (id, updateData) => {
         const updatedSnapshot = await getDoc(offerRef);
         const updatedData = { id: updatedSnapshot.id, ...updatedSnapshot.data() };
 
-        console.log('Capa Modelo ---> updateOffer: ', updatedData);
+        log('Modelo', 'updateOffer', 'Oferta actualizada exitosamente');
         return updatedData;
-
-
     } catch (error) {
-        console.error('Capa Modelo --> Error al actualizar la oferta:', error);
+        logError('Modelo', 'updateOffer', error, 'Error al actualizar la oferta');
         return null;
     }
-}
+};
 
 export const deleteOffer = async (id) => {
     try {
@@ -105,15 +105,15 @@ export const deleteOffer = async (id) => {
         const snapshot = await getDoc(offerRef);
 
         if (!snapshot.exists()) {
-            console.warn(`No existe doc con doc.id='${id}'`);
+            log('Modelo', 'deleteOffer', `No existe doc con doc.id='${id}'`);
             return { deleted: false, message: 'Oferta no encontrada' };
         }
 
         await deleteDoc(offerRef);
-        console.log('Capa Modelo ---> deleteOffer: enviado');
+        log('Modelo', 'deleteOffer', 'Oferta eliminada exitosamente');
         return snapshot.data();
     } catch (error) {
-        console.error('Capa Modelo --> Error al eliminar la oferta:', error);
+        logError('Modelo', 'deleteOffer', error, 'Error al eliminar la oferta');
         return null;
     }
 }

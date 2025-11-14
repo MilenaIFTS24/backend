@@ -1,5 +1,6 @@
 import { db } from "../config/data.js";
 import { collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import { log, logError } from '../utils/logger.utils.js';
 
 const productsCollection = collection(db, "craftsProducts");
 
@@ -7,10 +8,10 @@ export const getAllCraftsProducts = async () => {
     try {
         const snapshot = await getDocs(productsCollection);
 
-        console.log('Capa Modelo ---> getAllCraftsProducts: enviado');
+        log('Modelo', 'getAllCraftsProducts', 'Productos obtenidos exitosamente');
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
-        console.error('Capa Modelo --> Error al obtener los productos:', error);
+        logError('Modelo', 'getAllCraftsProducts', error, 'Error al obtener los productos');
         return [];
     }
 };
@@ -21,28 +22,28 @@ export const getCraftProductById = async (id) => {
 
         const snapshot = await getDoc(productRef);
 
-        console.log('Capa Modelo ---> getCraftProductById: enviado');
+        log('Modelo', 'getCraftProductById', 'Producto obtenido exitosamente');
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
-        console.error('Capa Modelo --> Error al obtener el producto:', error);
+        logError('Modelo', 'getCraftProductById', error, 'Error al obtener el producto');
         return null;
     }
-}
+};
 
 export const createCraftProduct = async (data) => {
     try {
 
-        if (!data || typeof data !== 'object') { // Si no existe data o no es un objeto
+        if (!data || typeof data !== 'object') {
             throw new Error('Los datos del producto no son válidos');
         }
 
         const docRef = await addDoc(productsCollection, data);
 
-        console.log('Capa Modelo ---> createCraftProduct: enviado');
+        log('Modelo', 'createCraftProduct', 'Producto creado exitosamente');
         return { id: docRef.id, ...data };
 
     } catch (error) {
-        console.error('Capa Modelo --> Error al crear el producto en la base de datos:', error);
+        logError('Modelo', 'createCraftProduct', error, 'Error al crear el producto en la base de datos');
         throw new Error('Error al crear el producto en la base de datos');
     }
 };
@@ -54,7 +55,7 @@ export const updateCraftProduct = async (id, updateData) => {
         let snapshot = await getDoc(productRef);
 
         if (!snapshot.exists()) {
-            console.warn(`No existe doc con doc.id='${id}', buscando por campo 'id' en documentos...`);
+            log('Modelo', 'updateCraftProduct', `No existe doc con doc.id='${id}', buscando por campo 'id' en documentos...`);
 
             const allSnapshot = await getDocs(productsCollection);
 
@@ -64,13 +65,13 @@ export const updateCraftProduct = async (id, updateData) => {
             });
 
             if (!found) {
-                console.warn(`No se encontró documento con campo 'id' == ${id}`);
+                log('Modelo', 'updateCraftProduct', `No se encontró documento con campo 'id' == ${id}`);
                 return null;
             }
 
             productRef = doc(productsCollection, found.id);
             snapshot = await getDoc(productRef);
-            console.log(`Encontrado doc con doc.id='${found.id}'`);
+            log('Modelo', 'updateCraftProduct', `Encontrado doc con doc.id='${found.id}'`);
         }
 
         await updateDoc(productRef, updateData);
@@ -78,15 +79,13 @@ export const updateCraftProduct = async (id, updateData) => {
         const updatedSnapshot = await getDoc(productRef);
         const updatedData = { id: updatedSnapshot.id, ...updatedSnapshot.data() };
 
-        console.log('Capa Modelo ---> updateCraftProduct:', updatedData);
+        log('Modelo', 'updateCraftProduct', 'Producto actualizado exitosamente');
         return updatedData;
-
-
     } catch (error) {
-        console.error('Capa Modelo --> Error al actualizar el producto:', error);
+        logError('Modelo', 'updateCraftProduct', error, 'Error al actualizar el producto');
         return null;
     }
-}
+};
 
 export const deleteCraftProduct = async (id) => {
     try {
@@ -95,15 +94,15 @@ export const deleteCraftProduct = async (id) => {
         const snapshot = await getDoc(productRef);
 
         if (!snapshot.exists()) {
-            console.warn(`No existe doc con doc.id='${id}'`);
+            log('Modelo', 'deleteCraftProduct', `No existe doc con doc.id='${id}'`);
             return { deleted: false, message: 'Producto no encontrado' };
         }
 
         await deleteDoc(productRef);
-        console.log('Capa Modelo ---> deleteCraftProduct: enviado');
+        log('Modelo', 'deleteCraftProduct', 'Producto eliminado exitosamente');
         return snapshot.data();
     } catch (error) {
-        console.error('Capa Modelo --> Error al eliminar el producto:', error);
+        logError('Modelo', 'deleteCraftProduct', error, 'Error al eliminar el producto');
         return null;
     }
-}
+};
