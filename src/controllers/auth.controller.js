@@ -5,7 +5,7 @@ export const login = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            log('Controlador', 'login', 'Email y contraseña son requeridos');
+            log('Controlador', 'login', 'Email y contraseña son requeridos', 400);
             return res.status(400).json({
                 error: 'Email y contraseña son requeridos'
             });
@@ -27,7 +27,7 @@ export const login = async (req, res) => {
             });
         }
         
-        logError('Controlador', 'login', error, 'Error en el login');
+        logError('Controlador', 'login', error, 500,'Error en el login');
         return res.status(500).json({
             error: 'Error en el login'
         });

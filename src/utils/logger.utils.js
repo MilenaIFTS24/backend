@@ -2,19 +2,19 @@ import fs from 'fs';
 import path from 'path';
 
 const errorsLogFile = path.join(process.cwd(), 'log_errores.txt');
-export const log = (capa, método, mensaje, datos = null) => {
+export const log = (capa, método, mensaje, statusCode = 200, datos = null) => {
     const hora = new Date().toLocaleTimeString();
-    console.log(`[${hora}] Capa ${capa} ---> ${método}: ${mensaje}`);
+    console.log(`[${hora}] Capa ${capa} ---> ${método}: ${mensaje} - Código ${statusCode}`);
     if (datos) {
         console.log(' Datos: ', datos);
     };
 };
 
-export const logError = (capa, metodo, error, infoExtra = '') => {
+export const logError = (capa, metodo, error, statusCode = 500, infoExtra = '') => {
     const fechaHora = new Date().toLocaleString();
     const hora = new Date().toLocaleTimeString();
 
-    console.error(`[${hora}] Capa ${capa} ---> ${metodo}: ERROR`);
+    console.error(`[${hora}] Capa ${capa} ---> ${metodo}: ERROR ${statusCode} `);
     console.error(` Mensaje: ${error.message}`);
     if (infoExtra) {
         console.error(` Info: ${infoExtra}`);
@@ -24,6 +24,7 @@ export const logError = (capa, metodo, error, infoExtra = '') => {
     const mensajeError = `
         -- ERROR --
         Fecha: ${fechaHora}
+        Codigo HTTP: ${statusCode}
         Capa: ${capa}
         Metodo: ${metodo}
         Mensaje: ${error.message}        

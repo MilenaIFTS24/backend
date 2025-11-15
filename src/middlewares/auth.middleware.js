@@ -7,7 +7,7 @@ export const auth = (req, res, next) => {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
-            logError('Auth middleware', 'auth', err, 'Token inválido o expirado');
+            logError('Auth middleware', 'auth', err, 403, 'Token inválido o expirado');
             return res.status(403).json({
                 success: false,
                 error: 'Token inválido o expirado'
@@ -21,14 +21,14 @@ export const auth = (req, res, next) => {
 
 export const requiresAdmin = (req, res, next) => {
     if (!req.user) {
-        log('Auth middleware', 'requiresAdmin', 'Usuario no autenticado');
+        log('Auth middleware', 'requiresAdmin', 'Usuario no autenticado', 401);
         return res.status(401).json({
             error: 'Usuario no autenticado'
         });
     }
 
     if (req.user.role !== "admin") {
-        log('Auth middleware', 'requiresAdmin', 'Acceso denegado. Se requiere rol de administrador', req.user.role);
+        log('Auth middleware', 'requiresAdmin', 'Acceso denegado. Se requiere rol de administrador', 403, req.user.role);
         return res.status(403).json({
             error: 'Acceso denegado. Se requiere rol de administrador'
         });

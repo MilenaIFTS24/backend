@@ -6,14 +6,14 @@ export const getOffers = async (req, res) => {
         const offers = await offersService.getAllOffers();
 
         if (offers.length === 0) {
-            log('Controlador', 'getOffers', 'No hay ofertas disponibles');
+            log('Controlador', 'getOffers', 'No hay ofertas disponibles', 404);
             return res.status(404).json({ error: 'No hay ofertas disponibles' });
         }
 
         log('Controlador', 'getOffers', 'Ofertas obtenidas', offers);
         return res.status(200).json(offers);
     } catch (error) {
-        logError('Controlador', 'getOffers', error, 'Error al obtener las ofertas');
+        logError('Controlador', 'getOffers', error, 500, 'Error al obtener las ofertas');
         return res.status(500).json({ error: 'Error al obtener las ofertas' });
     }
 };
@@ -22,7 +22,7 @@ export const getOfferById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            log('Controlador', 'getOfferById', 'ID de oferta inválido');
+            log('Controlador', 'getOfferById', 'ID de oferta inválido', 400);
             return res.status(400).json({ error: 'ID de oferta inválido' });
         }
         const offer = await offersService.getOfferById(id);
@@ -33,7 +33,7 @@ export const getOfferById = async (req, res) => {
         if (error.message === 'Oferta no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'getOfferById', error, 'Error al obtener la oferta');
+        logError('Controlador', 'getOfferById', error, 500, 'Error al obtener la oferta');
         return res.status(500).json({ error: 'Error al obtener la oferta' });
     }
 };
@@ -42,7 +42,7 @@ export const searchOfferByTitle = async (req, res) => {
     const { title } = req.query;
 
     if (!title || typeof title !== 'string' || title.trim() === '') {
-        log('Controlador', 'searchOfferByTitle', 'Se requiere el query param << title >>');
+        log('Controlador', 'searchOfferByTitle', 'Se requiere el query param << title >>', 400);
         return res.status(400).json({ error: 'Se requiere el query param << title >>' });
     }
 
@@ -53,7 +53,7 @@ export const searchOfferByTitle = async (req, res) => {
         log('Controlador', 'searchOfferByTitle', 'filteredOffers', filteredOffers);
         return res.status(200).json(filteredOffers);
     } catch (error) {
-        logError('Controlador', 'searchOfferByTitle', error, 'Error al buscar la oferta por titulo');
+        logError('Controlador', 'searchOfferByTitle', error, 500, 'Error al buscar la oferta por titulo');
         return res.status(500).json({ error: 'Error al buscar la oferta por titulo' });
     }
 };
@@ -62,7 +62,7 @@ export const createOffer = async (req, res) => {
     const validation = offersService.validateOfferData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'createOffer', 'Datos inválidos', validation.errors);
+        log('Controlador', 'createOffer', 'Datos inválidos', 400, validation.errors);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -85,10 +85,10 @@ export const createOffer = async (req, res) => {
             endDate,
         });
 
-        log('Controlador', 'createOffer', 'Oferta creada', newOffer);
+        log('Controlador', 'createOffer', 'Oferta creada', 201, newOffer);
         return res.status(201).json(newOffer);
     } catch (error) {
-        logError('Controlador', 'createOffer', error, 'Error al crear la oferta');
+        logError('Controlador', 'createOffer', error, 500, 'Error al crear la oferta');
         return res.status(500).json({ error: 'Error al crear la oferta' });
     }
 };
@@ -96,14 +96,14 @@ export const createOffer = async (req, res) => {
 export const updateOffer = async (req, res) => {
     const { id } = req.params;
     if (!id) {
-        log('Controlador', 'updateOffer', 'ID de oferta inválido');
+        log('Controlador', 'updateOffer', 'ID de oferta inválido', 400);
         return res.status(400).json({ error: 'ID de oferta inválido' });
     }
 
     const validation = offersService.validateUpdateData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'updateOffer', 'Datos inválidos', validation.errors);
+        log('Controlador', 'updateOffer', 'Datos inválidos', 400, validation.errors);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -121,7 +121,7 @@ export const updateOffer = async (req, res) => {
         if (error.message === 'Oferta no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'updateOffer', error, 'Error al actualizar la oferta');
+        logError('Controlador', 'updateOffer', error, 500, 'Error al actualizar la oferta');
         return res.status(500).json({ error: 'Error al actualizar la oferta' });
     }
 };
@@ -130,7 +130,7 @@ export const deleteOffer = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            log('Controlador', 'deleteOffer', 'ID de oferta inválido');
+            log('Controlador', 'deleteOffer', 'ID de oferta inválido', 400);
             return res.status(400).json({ error: 'ID de oferta inválido' });
         }
         const deletedOffer = await offersService.deleteOffer(id);
@@ -141,7 +141,7 @@ export const deleteOffer = async (req, res) => {
         if (error.message === 'Oferta no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'deleteOffer', error, 'Error al eliminar la oferta');
+        logError('Controlador', 'deleteOffer', error, 500, 'Error al eliminar la oferta');
         return res.status(500).json({ error: 'Error al eliminar la oferta' });
     }
 };
