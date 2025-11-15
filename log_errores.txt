@@ -19,3 +19,352 @@
     at async searchCraftProductByName (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/craftsProducts.controller.js:50:34)
         -------------------------
     
+        -- ERROR --
+        Fecha: 15/11/2025, 01:40:19
+        Capa: Modelo
+        Metodo: createOffer
+        Mensaje: product is not defined        
+        Info Extra: Error al crear la oferta en la base de datos
+        Stack: ReferenceError: product is not defined
+    at Module.createOffer (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/models/offers.model.js:43:25)
+    at Module.createOffer (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/offers.service.js:50:28)
+    at createOffer (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/offers.controller.js:75:46)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at requiresAdmin (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:38:5)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:18:9
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:261:12
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:40:19
+        Capa: Servicio
+        Metodo: createOffer
+        Mensaje: Error al crear la oferta en la base de datos        
+        Info Extra: Error creando oferta
+        Stack: Error: Error al crear la oferta en la base de datos
+    at Module.createOffer (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/models/offers.model.js:54:15)
+    at Module.createOffer (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/offers.service.js:50:28)
+    at createOffer (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/offers.controller.js:75:46)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at requiresAdmin (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:38:5)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:18:9
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:261:12
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:40:19
+        Capa: Controlador
+        Metodo: createOffer
+        Mensaje: Error creando oferta: Error al crear la oferta en la base de datos        
+        Info Extra: Error al crear la oferta
+        Stack: Error: Error creando oferta: Error al crear la oferta en la base de datos
+    at Module.createOffer (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/offers.service.js:53:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async createOffer (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/offers.controller.js:75:26)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:49:35
+        Capa: Modelo
+        Metodo: createReservation
+        Mensaje: Function addDoc() called with invalid data. Unsupported field value: undefined (found in field customerNotes in document reservations/cCrjW8fqVix93UWujRPq)        
+        Info Extra: Error al crear la reserva en la base de datos
+        Stack: FirebaseError: Function addDoc() called with invalid data. Unsupported field value: undefined (found in field customerNotes in document reservations/cCrjW8fqVix93UWujRPq)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:49:35
+        Capa: Controlador
+        Metodo: createReservation
+        Mensaje: logError is not defined        
+        Info Extra: Error al crear la reserva
+        Stack: ReferenceError: logError is not defined
+    at Module.createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/reservations.service.js:30:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/reservations.controller.js:68:32)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:52:51
+        Capa: Servicio
+        Metodo: createReservation
+        Mensaje: Error al crear la reserva en la base de datos        
+        Info Extra: Error creando reserva
+        Stack: Error: Error al crear la reserva en la base de datos
+    at Module.createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/models/reservations.model.js:62:15)
+    at Module.createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/reservations.service.js:28:28)
+    at createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/reservations.controller.js:68:58)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at requiresAdmin (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:38:5)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:18:9
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:261:12
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:52:51
+        Capa: Modelo
+        Metodo: createReservation
+        Mensaje: Function addDoc() called with invalid data. Unsupported field value: undefined (found in field discount in document reservations/IvKj1xyWA3Eqy1sf15i6)        
+        Info Extra: Error al crear la reserva en la base de datos
+        Stack: FirebaseError: Function addDoc() called with invalid data. Unsupported field value: undefined (found in field discount in document reservations/IvKj1xyWA3Eqy1sf15i6)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:52:51
+        Capa: Controlador
+        Metodo: createReservation
+        Mensaje: Error creando reserva: Error al crear la reserva en la base de datos        
+        Info Extra: Error al crear la reserva
+        Stack: Error: Error creando reserva: Error al crear la reserva en la base de datos
+    at Module.createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/reservations.service.js:31:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/reservations.controller.js:68:32)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:53:31
+        Capa: Modelo
+        Metodo: createReservation
+        Mensaje: Function addDoc() called with invalid data. Unsupported field value: undefined (found in field discountCode in document reservations/IcdFWS0hza9HomQJUYvd)        
+        Info Extra: Error al crear la reserva en la base de datos
+        Stack: FirebaseError: Function addDoc() called with invalid data. Unsupported field value: undefined (found in field discountCode in document reservations/IcdFWS0hza9HomQJUYvd)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:53:31
+        Capa: Servicio
+        Metodo: createReservation
+        Mensaje: Error al crear la reserva en la base de datos        
+        Info Extra: Error creando reserva
+        Stack: Error: Error al crear la reserva en la base de datos
+    at Module.createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/models/reservations.model.js:62:15)
+    at Module.createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/reservations.service.js:28:28)
+    at createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/reservations.controller.js:68:58)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at requiresAdmin (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:38:5)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:18:9
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:261:12
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:53:31
+        Capa: Controlador
+        Metodo: createReservation
+        Mensaje: Error creando reserva: Error al crear la reserva en la base de datos        
+        Info Extra: Error al crear la reserva
+        Stack: Error: Error creando reserva: Error al crear la reserva en la base de datos
+    at Module.createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/reservations.service.js:31:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async createReservation (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/reservations.controller.js:68:32)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:56:30
+        Capa: Error middleware
+        Metodo: notFoundHandler
+        Mensaje: undefined        
+        Info Extra: /api/reservations/0jogn2EocUU9E1426ln1
+        Stack: undefined
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 01:57:54
+        Capa: Error middleware
+        Metodo: notFoundHandler
+        Mensaje: undefined        
+        Info Extra: /api/reservations/0jogn2EocUU9E1426ln1
+        Stack: undefined
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:00:28
+        Capa: Modelo
+        Metodo: updateReservation
+        Mensaje: Function updateDoc() called with invalid data. Unsupported field value: undefined (found in field cancellationDate in document reservations/0jogn2EocUU9E1426ln1)        
+        Info Extra: Error al actualizar la reserva
+        Stack: FirebaseError: Function updateDoc() called with invalid data. Unsupported field value: undefined (found in field cancellationDate in document reservations/0jogn2EocUU9E1426ln1)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:13:59
+        Capa: Auth middleware
+        Metodo: auth
+        Mensaje: jwt expired        
+        Info Extra: Token inválido o expirado
+        Stack: TokenExpiredError: jwt expired
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:190:21
+    at getSecret (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:97:14)
+    at module.exports [as verify] (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:101:10)
+    at auth (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:8:9)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:295:15
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:21:23
+        Capa: Auth middleware
+        Metodo: auth
+        Mensaje: jwt malformed        
+        Info Extra: Token inválido o expirado
+        Stack: JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:70:17)
+    at auth (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:8:9)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:295:15
+    at param (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:600:14)
+    at param (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:610:14)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:28:35
+        Capa: Controlador
+        Metodo: login
+        Mensaje: Contraseña inválida        
+        Info Extra: Error interno del servidor
+        Stack: Error: Contraseña inválida
+    at authenticateUser (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/users.service.js:121:15)
+    at async Object.login (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/auth.service.js:8:22)
+    at async login (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/auth.controller.js:14:24)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:32:51
+        Capa: Controlador
+        Metodo: login
+        Mensaje: Contraseña inválida        
+        Info Extra: Error interno del servidor
+        Stack: Error: Contraseña inválida
+    at authenticateUser (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/users.service.js:121:15)
+    at async Object.login (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/auth.service.js:8:22)
+    at async login (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/auth.controller.js:14:24)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:41:28
+        Capa: Auth middleware
+        Metodo: auth
+        Mensaje: jwt expired        
+        Info Extra: Token inválido o expirado
+        Stack: TokenExpiredError: jwt expired
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:190:21
+    at getSecret (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:97:14)
+    at module.exports [as verify] (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:101:10)
+    at auth (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:8:9)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:295:15
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:47:40
+        Capa: Auth middleware
+        Metodo: auth
+        Mensaje: jwt expired        
+        Info Extra: Token inválido o expirado
+        Stack: TokenExpiredError: jwt expired
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:190:21
+    at getSecret (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:97:14)
+    at module.exports [as verify] (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:101:10)
+    at auth (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:8:9)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:295:15
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:48:09
+        Capa: Controlador
+        Metodo: searchUserByName
+        Mensaje: No se encontraron usuarios con ese nombre        
+        Info Extra: Error al buscar el usuario por nombre
+        Stack: Error: No se encontraron usuarios con ese nombre
+    at Module.searchUserByName (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/users.service.js:47:15)
+    at async searchUserByName (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/users.controller.js:69:31)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:48:35
+        Capa: Controlador
+        Metodo: searchUserByName
+        Mensaje: No se encontraron usuarios con ese nombre        
+        Info Extra: Error al buscar el usuario por nombre
+        Stack: Error: No se encontraron usuarios con ese nombre
+    at Module.searchUserByName (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/users.service.js:47:15)
+    at async searchUserByName (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/users.controller.js:69:31)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:52:59
+        Capa: Controlador
+        Metodo: searchUserByFullName
+        Mensaje: name is not defined        
+        Info Extra: Error al buscar el usuario por nombre
+        Stack: ReferenceError: name is not defined
+    at searchUserByFullName (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/users.controller.js:69:67)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at requiresAdmin (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:38:5)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:18:9
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:261:12
+    at getSecret (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:97:14)
+    at module.exports [as verify] (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:101:10)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 02:55:26
+        Capa: Controlador
+        Metodo: createUser
+        Mensaje: El email ya está registrado        
+        Info Extra: Error al crear el usuario
+        Stack: Error: El email ya está registrado
+    at Module.createUser (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/services/users.service.js:60:15)
+    at async createUser (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/controllers/users.controller.js:94:25)
+        -------------------------
+    
+        -- ERROR --
+        Fecha: 15/11/2025, 03:01:01
+        Capa: Auth middleware
+        Metodo: auth
+        Mensaje: jwt expired        
+        Info Extra: Token inválido o expirado
+        Stack: TokenExpiredError: jwt expired
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:190:21
+    at getSecret (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:97:14)
+    at module.exports [as verify] (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\jsonwebtoken\verify.js:101:10)
+    at auth (file:///C:/Users/Mile/Desktop/Tecnicatura/Desarrollo%20de%20Sistemas%20Web%20(Back%20End)/Trabajo%20Final/backend/src/middlewares/auth.middleware.js:8:9)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\Mile\Desktop\Tecnicatura\Desarrollo de Sistemas Web (Back End)\Trabajo Final\backend\node_modules\router\index.js:295:15
+        -------------------------
+    

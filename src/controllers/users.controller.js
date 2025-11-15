@@ -26,8 +26,8 @@ export const getUserById = async (req, res) => {
         }
         const user = await usersService.getUserById(id);
 
-        log('Controlador', 'getUserById', 'Usuario obtenido', user);
-        return res.status(200).json(user);
+        log('Controlador', 'getUserById', 'Usuario obtenido', user.email);
+        return res.status(200).json(user.email);
     } catch (error) {
         if (error.message === 'Usuario no encontrado') {
             return res.status(404).json({ error: error.message });
@@ -46,7 +46,7 @@ export const getUserByEmail = async (req, res) => {
         }
         const user = await usersService.getUserByEmail(email);
 
-        log('Controlador', 'getUserByEmail', 'Usuario obtenido', user);
+        log('Controlador', 'getUserByEmail', 'Usuario obtenido', user.email);
         return res.status(200).json(user);
     } catch (error) {
         if (error.message === 'Usuario no encontrado') {
@@ -57,22 +57,22 @@ export const getUserByEmail = async (req, res) => {
     }
 };
 
-export const searchUserByName = async (req, res) => {
-    const { name } = req.query;
+export const searchUserByFullName = async (req, res) => {
+    const { fullName } = req.query;
 
-    if (!name || typeof name !== 'string' || name.trim() === '') {
-        log('Controlador', 'searchUserByName', 'Se requiere el query param << name >>');
-        return res.status(400).json({ error: 'Se requiere el query param << name >>' });
+    if (!fullName || typeof fullName !== 'string' || fullName.trim() === '') {
+        log('Controlador', 'searchUserByFullName', 'Se requiere el query param << fullName >>');
+        return res.status(400).json({ error: 'Se requiere el query param << fullName >>' });
     }
 
     try {
-        const filteredUsers = await usersService.searchUserByName(name);
+        const filteredUsers = await usersService.searchUserByFullName(fullName);
 
-        log('Controlador', 'searchUserByName', 'name', name);
-        log('Controlador', 'searchUserByName', 'filteredUsers', filteredUsers);
+        log('Controlador', 'searchUserByFullName', 'fullName', fullName);
+        log('Controlador', 'searchUserByFullName', 'filteredUsers', filteredUsers);
         return res.status(200).json(filteredUsers);
     } catch (error) {
-        logError('Controlador', 'searchUserByName', error, 'Error al buscar el usuario por nombre');
+        logError('Controlador', 'searchUserByFullName', error, 'Error al buscar el usuario por nombre');
         return res.status(500).json({ error: 'Error al buscar el usuario por nombre' });
     }
 };

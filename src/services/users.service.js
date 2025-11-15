@@ -29,25 +29,25 @@ export const getUserByEmail = async (email) => {
     return user;
 };
 
-export const searchUserByName = async (name) => {
+export const searchUserByFullName = async (fullName) => {
     const users = await model.getAllUsers();
 
     if (!Array.isArray(users)) {
-        log('Servicio', 'searchUserByName', 'Error interno al obtener usuarios');
+        log('Servicio', 'searchUserByFullName', 'Error interno al obtener usuarios');
         throw new Error('Error interno al obtener usuarios');
     }
 
     const filteredUsers = users.filter((user) =>
-        typeof user.name === 'string' &&
-        user.name.toLowerCase().includes(name.toLowerCase().trim())
+        typeof user.fullName === 'string' &&
+        user.fullName.toLowerCase().includes(fullName.toLowerCase().trim())
     );
 
     if (filteredUsers.length === 0) {
-        log('Servicio', 'searchUserByName', 'No se encontraron usuarios con ese nombre');
+        log('Servicio', 'searchUserByFullName', 'No se encontraron usuarios con ese nombre');
         throw new Error('No se encontraron usuarios con ese nombre');
     }
 
-    log('Servicio', 'searchUserByName', 'Usuario/s enviados');
+    log('Servicio', 'searchUserByFullName', 'Usuario/s enviados');
     return filteredUsers;
 };
 

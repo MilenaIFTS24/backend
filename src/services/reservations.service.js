@@ -1,4 +1,4 @@
-import { log } from '../utils/logger.utils.js';
+import { log, logError } from '../utils/logger.utils.js';
 import * as model from "../models/reservations.model.js";
 
 export const getAllReservations = async () => {
@@ -277,8 +277,10 @@ export const validateReservationUpdateData = (data) => {
         errors.push('El campo "ecoPackaging" debe ser un valor booleano (true/false).');
     }
 
-    if (cancellationDate !== undefined && (typeof cancellationDate !== 'string' || !dateRegex.test(cancellationDate))) {
-        errors.push('El campo "cancellationDate" debe tener formato DD-MM-YY (ej: 09-10-24).');
+    if (cancellationDate !== undefined) {
+        if (cancellationDate !== '' && (typeof cancellationDate !== 'string' || !dateRegex.test(cancellationDate))) {
+            errors.push('El campo "cancellationDate" debe ser un string vacío o tener formato DD-MM-YY (ej: 09-10-24).');
+        }
     }
 
     return { valid: errors.length === 0, errors };

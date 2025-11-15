@@ -27,9 +27,9 @@ export const login = async (req, res) => {
             });
         }
         
-        logError('Controlador', 'login', error, 'Error interno del servidor');
+        logError('Controlador', 'login', error, 'Error en el login');
         return res.status(500).json({
-            error: 'Error interno del servidor'
+            error: 'Error en el login'
         });
     }
 };

@@ -39,7 +39,6 @@ export const createOffer = async (data) => {
         }
         if (data.applicableTo && Array.isArray(data.applicableTo)) {
             data.applicableTo = data.applicableTo.map(product =>
-                log('Modelo', 'createOffer', 'Creando referencia para el producto ', product),
                 doc(db, product.collection, product.id) 
             );
         }

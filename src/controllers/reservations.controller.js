@@ -96,7 +96,7 @@ export const updateReservation = async (req, res) => {
         return res.status(400).json({ error: 'ID de reserva inválido' });
     }
 
-    const validation = validateReservationUpdateData(req.body);
+    const validation = reservationsService.validateReservationUpdateData(req.body);
 
     if (!validation.valid) {
         log('Controlador', 'updateReservation', 'Datos inválidos', validation.errors);

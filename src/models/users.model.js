@@ -22,7 +22,7 @@ export const getUserById = async (id) => {
         const userRef = doc(usersCollection, id);
         const snapshot = await getDoc(userRef);
 
-        log('Modelo', 'getUserById', 'Usuario obtenido exitosamente');
+        log('Modelo', 'getUserById', 'Usuario obtenido');
         return snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null;
     } catch (error) {
         logError('Modelo', 'getUserById', error, 'Error al obtener el usuario');
@@ -46,7 +46,7 @@ export const getUserByEmail = async (email) => {
             return null;
         }
 
-        log('Modelo', 'getUserByEmail', 'Usuario obtenido exitosamente', user);
+        log('Modelo', 'getUserByEmail', 'Usuario obtenido', user.email);
         return user || null;
     } catch (error) {
         logError('Modelo', 'getUserByEmail', error, 'Error al obtener el usuario');
