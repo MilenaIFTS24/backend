@@ -5,14 +5,14 @@ export const getReservations = async (req, res) => {
         const reservations = await reservationsService.getAllReservations();
 
         if (reservations.length === 0) {
-            log('Controlador', 'getReservations', 'No existen reservas', 404);
+            log('Controlador', 'getReservations', 'No existen reservas', null, 404);
             return res.status(404).json({ error: 'No existen reservas' });
         }
 
         log('Controlador', 'getReservations', 'Reservas obtenidas', reservations);
         return res.status(200).json(reservations);
     } catch (error) {
-        logError('Controlador', 'getReservations', error, 500, 'Error al obtener las reservas');
+        logError('Controlador', 'getReservations', error, 'Error al obtener las reservas', 500);
         return res.status(500).json({ error: 'Error al obtener las reservas' });
     }
 };
@@ -21,7 +21,7 @@ export const getReservationById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            log('Controlador', 'getReservationById', 'ID de reserva inválido', 400);
+            log('Controlador', 'getReservationById', 'ID de reserva inválido', null, 400);
             return res.status(400).json({ error: 'ID de reserva inválido' });
         }
         const reservation = await reservationsService.getReservationById(id);
@@ -32,7 +32,7 @@ export const getReservationById = async (req, res) => {
         if (error.message === 'Reserva no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'getReservationById', error, 500, 'Error al obtener la reserva');
+        logError('Controlador', 'getReservationById', error, 'Error al obtener la reserva', 500);
         return res.status(500).json({ error: 'Error al obtener la reserva' });
     }
 };
@@ -41,7 +41,7 @@ export const createReservation = async (req, res) => {
     const validation = reservationsService.validateReservationData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'createReservation', 'Datos inválidos', 400, validation.errors);
+        log('Controlador', 'createReservation', 'Datos inválidos', validation.errors, 400);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -81,10 +81,10 @@ export const createReservation = async (req, res) => {
             ecoPackaging
         });
 
-        log('Controlador', 'createReservation', 'Reserva creada', 201, newReservation);
+        log('Controlador', 'createReservation', 'Reserva creada', newReservation, 201);
         return res.status(201).json(newReservation);
     } catch (error) {
-        logError('Controlador', 'createReservation', error, 500, 'Error al crear la reserva');
+        logError('Controlador', 'createReservation', error, 'Error al crear la reserva', 500);
         return res.status(500).json({ error: 'Error al crear la reserva' });
     }
 };
@@ -92,14 +92,14 @@ export const createReservation = async (req, res) => {
 export const updateReservation = async (req, res) => {
     const { id } = req.params;
     if (!id) {
-        log('Controlador', 'updateReservation', 'ID de reserva inválido', 400);
+        log('Controlador', 'updateReservation', 'ID de reserva inválido', null, 400);
         return res.status(400).json({ error: 'ID de reserva inválido' });
     }
 
     const validation = reservationsService.validateReservationUpdateData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'updateReservation', 'Datos inválidos', 400, validation.errors);
+        log('Controlador', 'updateReservation', 'Datos inválidos', validation.errors, 400);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -147,7 +147,7 @@ export const updateReservation = async (req, res) => {
         if (error.message === 'Reserva no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'updateReservation', error, 500, 'Error al actualizar la reserva');
+        logError('Controlador', 'updateReservation', error, 'Error al actualizar la reserva', 500);
         return res.status(500).json({ error: 'Error al actualizar la reserva' });
     }
 };
@@ -156,7 +156,7 @@ export const deleteReservation = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            log('Controlador', 'deleteReservation', 'ID de reserva inválido', 400);
+            log('Controlador', 'deleteReservation', 'ID de reserva inválido', null, 400);
             return res.status(400).json({ error: 'ID de reserva inválido' });
         }
         const deletedReservation = await reservationsService.deleteReservation(id);
@@ -167,7 +167,7 @@ export const deleteReservation = async (req, res) => {
         if (error.message === 'Reserva no encontrada') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'deleteReservation', error, 500, 'Error al eliminar la reserva');
+        logError('Controlador', 'deleteReservation', error, 'Error al eliminar la reserva', 500);
         return res.status(500).json({ error: 'Error al eliminar la reserva' });
     }
 };

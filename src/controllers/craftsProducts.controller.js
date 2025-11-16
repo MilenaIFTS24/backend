@@ -5,14 +5,14 @@ export const getCraftsProducts = async (req, res) => {
         const products = await craftsProductsService.getAllCraftsProducts();
 
         if (products.length === 0) {
-            log('Controlador', 'getCraftsProducts', 'No hay productos disponibles', 404);
+            log('Controlador', 'getCraftsProducts', 'No hay productos disponibles', null, 404);
             return res.status(404).json({ error: 'No hay productos disponibles' });
         }
 
         log('Controlador', 'getCraftsProducts', 'Productos obtenidos', products);
         return res.status(200).json(products);
     } catch (error) {
-        logError('Controlador', 'getCraftsProducts', error, 500,'Error al obtener los productos');
+        logError('Controlador', 'getCraftsProducts', error,'Error al obtener los productos', 500);
         return res.status(500).json({ error: 'Error al obtener los productos' });
     }
 };
@@ -22,7 +22,7 @@ export const getCraftProductById = async (req, res) => {
 
         const { id } = req.params;
         if (!id) {
-            logError('Controlador', 'getCraftProductById', 'ID de producto inválido', 400);
+            logError('Controlador', 'getCraftProductById', 'ID de producto inválido', '', 400);
             return res.status(400).json({ error: 'ID de producto inválido' });
         }
         const product = await craftsProductsService.getCraftProductById(id);
@@ -33,7 +33,7 @@ export const getCraftProductById = async (req, res) => {
         if (error.message === 'Producto no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'getCraftProductById', error, 500, 'Error al obtener el producto');
+        logError('Controlador', 'getCraftProductById', error, 'Error al obtener el producto', 500);
         return res.status(500).json({ error: 'Error al obtener el producto' });
     }
 };
@@ -42,7 +42,7 @@ export const searchCraftProductByName = async (req, res) => {
     const { name } = req.query;
 
     if (!name || typeof name !== 'string' || name.trim() === '') {
-        log('Controlador', 'searchCraftProductByName', 'Se requiere el query param << name >>', 400);
+        log('Controlador', 'searchCraftProductByName', 'Se requiere el query param << name >>', null, 400);
         return res.status(400).json({ error: 'Se requiere el query param << name >>' });
     }
 
@@ -53,7 +53,7 @@ export const searchCraftProductByName = async (req, res) => {
         log('Controlador', 'searchCraftProductByName', 'filteredProducts', filteredProducts)
         return res.status(200).json(filteredProducts);;
     } catch (error) {
-        logError('Controlador', 'searchCraftProductByName', error, 500, 'Error al buscar el producto por nombre');
+        logError('Controlador', 'searchCraftProductByName', error, 'Error al buscar el producto por nombre', 500);
         return res.status(500).json({ error: 'Error al buscar el producto por nombre' });
     }
 };
@@ -62,7 +62,7 @@ export const createCraftProduct = async (req, res) => {
     const validation = craftsProductsService.validateProductData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'createCraftProduct', 'Datos inválidos', 400, validation.errors);
+        log('Controlador', 'createCraftProduct', 'Datos inválidos', validation.errors, 400);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -82,10 +82,10 @@ export const createCraftProduct = async (req, res) => {
             stock,
         });
 
-        log('Controlador', 'createCraftProduct', 'Producto creado', 201, newProduct);
+        log('Controlador', 'createCraftProduct', 'Producto creado', newProduct, 201);
         return res.status(201).json(newProduct);
     } catch (error) {
-        logError('Controlador', 'createCraftProduct', error, 500, 'Error al crear el producto');
+        logError('Controlador', 'createCraftProduct', error, 'Error al crear el producto', 500);
         return res.status(500).json({ error: 'Error al crear el producto' });
     }
 };
@@ -93,14 +93,14 @@ export const createCraftProduct = async (req, res) => {
 export const updateCraftProduct = async (req, res) => {
     const { id } = req.params;
     if (!id) {
-        log('Controlador', 'updateCraftProduct', 'ID de producto inválido', 400);
+        log('Controlador', 'updateCraftProduct', 'ID de producto inválido', null, 400);
         return res.status(400).json({ error: 'ID de producto inválido' });
     }
 
     const validation = craftsProductsService.validateUpdateData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'updateCraftProduct', 'Datos inválidos', 400, validation.errors);
+        log('Controlador', 'updateCraftProduct', 'Datos inválidos', validation.errors, 400);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -113,7 +113,7 @@ export const updateCraftProduct = async (req, res) => {
         const updatedProduct = await craftsProductsService.updateCraftProduct(id, { name, brandArtist, creationDate, description, ecoFriendly, price, stock });
 
         if (updatedProduct === null) {
-            log('Controlador', 'updateTeaProduct', 'Producto no encontrado', 404);
+            log('Controlador', 'updateTeaProduct', 'Producto no encontrado', null, 404);
             return res.status(404).json({ error: 'Producto no encontrado' });
         }
 
@@ -123,7 +123,7 @@ export const updateCraftProduct = async (req, res) => {
         if (error.message === 'Producto no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'updateCraftProduct', error, 500, 'Error al actualizar el producto');
+        logError('Controlador', 'updateCraftProduct', error, 'Error al actualizar el producto', 500);
         res.status(500).json({ error: 'Error al actualizar el producto' });
     }
 };
@@ -132,7 +132,7 @@ export const deleteCraftProduct = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            log('Controlador', 'deleteCraftProduct', 'ID de producto inválido', 400);
+            log('Controlador', 'deleteCraftProduct', 'ID de producto inválido', null, 400);
             return res.status(400).json({ error: 'ID de producto inválido' });
         }
         const deletedProduct = await craftsProductsService.deleteCraftProduct(id);
@@ -143,7 +143,7 @@ export const deleteCraftProduct = async (req, res) => {
         if (error.message === 'Producto no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'deleteCraftProduct', error, 500, 'Error al eliminar el producto');
+        logError('Controlador', 'deleteCraftProduct', error, 'Error al eliminar el producto', 500);
         return res.status(500).json({ error: 'Error al eliminar el producto' });
     }
 };

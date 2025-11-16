@@ -4,14 +4,14 @@ export const getEvents = async (req, res) => {
     try {
         const events = await eventsService.getAllEvents();
         if (events.length === 0) {
-            log('Controlador', 'getEvents', 'No hay eventos disponibles', 404);
+            log('Controlador', 'getEvents', 'No hay eventos disponibles', null, 404);
             return res.status(404).json({ error: 'No hay eventos disponibles' });
         }
 
         log('Controlador', 'getEvents', 'Eventos obtenidos', events);
         return res.status(200).json(events);
     } catch (error) {
-        logError('Controlador', 'getEvents', error, 500, 'Error al obtener los eventos');
+        logError('Controlador', 'getEvents', error, 'Error al obtener los eventos', 500);
         return res.status(500).json({ error: 'Error al obtener los eventos' });
     }
 };
@@ -20,7 +20,7 @@ export const getEventById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            log('Controlador', 'getEventById', 'ID de evento inválido', 400);
+            log('Controlador', 'getEventById', 'ID de evento inválido', null, 400);
             return res.status(400).json({ error: 'ID de evento inválido' });
         }
 
@@ -31,7 +31,7 @@ export const getEventById = async (req, res) => {
         if (error.message === 'Evento no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'getEventById', error, 500, 'Error al obtener el evento');
+        logError('Controlador', 'getEventById', error, 'Error al obtener el evento', 500);
         return res.status(500).json({ error: 'Error al obtener el evento' });
     }
 };
@@ -40,7 +40,7 @@ export const searchEventByTitle = async (req, res) => {
     const { title } = req.query;
 
     if (!title || typeof title !== 'string' || title.trim() === '') {
-        log('Controlador', 'searchEventByTitle', 'Se requiere el query param << title >>', 400);
+        log('Controlador', 'searchEventByTitle', 'Se requiere el query param << title >>', null, 400);
         return res.status(400).json({ error: 'Se requiere el query param << title >>' });
     }
 
@@ -51,7 +51,7 @@ export const searchEventByTitle = async (req, res) => {
         log('Controlador', 'searchEventByTitle', 'filteredEvents', filteredEvents);
         return res.status(200).json(filteredEvents);
     } catch (error) {
-        logError('Controlador', 'searchEventByTitle', error, 500, 'Error al buscar el evento por titulo');
+        logError('Controlador', 'searchEventByTitle', error, 'Error al buscar el evento por titulo', 500);
         return res.status(500).json({ error: 'Error al buscar el evento por titulo' });
     }
 };
@@ -60,7 +60,7 @@ export const createEvent = async (req, res) => {
     const validation = eventsService.validateEventData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'createEvent', 'Datos inválidos', 400, validation.errors);
+        log('Controlador', 'createEvent', 'Datos inválidos', validation.errors, 400);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -96,10 +96,10 @@ export const createEvent = async (req, res) => {
             cancelledByRain
         });
 
-        log('Controlador', 'createEvent', 'Evento creado', 201, newEvent);
+        log('Controlador', 'createEvent', 'Evento creado', newEvent, 201);
         return res.status(201).json(newEvent);
     } catch (error) {
-        logError('Controlador', 'createEvent', error, 500, 'Error al crear el evento');
+        logError('Controlador', 'createEvent', error, 'Error al crear el evento', 500);
         return res.status(500).json({ error: 'Error al crear el evento' });
     }
 };
@@ -107,14 +107,14 @@ export const createEvent = async (req, res) => {
 export const updateEvent = async (req, res) => {
     const { id } = req.params;
     if (!id) {
-        log('Controlador', 'updateEvent', 'ID de evento inválido', 400);
+        log('Controlador', 'updateEvent', 'ID de evento inválido', null, 400);
         return res.status(400).json({ error: 'ID de evento inválido' });
     }
 
     const validation = eventsService.validateEventUpdateData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'updateEvent', 'Datos inválidos', 400, validation.errors);
+        log('Controlador', 'updateEvent', 'Datos inválidos', validation.errors, 400);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -156,7 +156,7 @@ export const updateEvent = async (req, res) => {
         if (error.message === 'Evento no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'updateEvent', error, 500, 'Error al actualizar el evento');
+        logError('Controlador', 'updateEvent', error, 'Error al actualizar el evento', 500);
         return res.status(500).json({ error: 'Error al actualizar el evento' });
     }
 };
@@ -165,7 +165,7 @@ export const deleteEvent = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            log('Controlador', 'deleteEvent', 'ID de evento inválido', 400);
+            log('Controlador', 'deleteEvent', 'ID de evento inválido', null, 400);
             return res.status(400).json({ error: 'ID de evento inválido' });
         }
 
@@ -177,7 +177,7 @@ export const deleteEvent = async (req, res) => {
         if (error.message === 'Evento no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'deleteEvent', error, 500, 'Error al eliminar el evento');
+        logError('Controlador', 'deleteEvent', error, 'Error al eliminar el evento', 500);
         return res.status(500).json({ error: 'Error al eliminar el evento' });
     }
 };

@@ -5,14 +5,14 @@ export const getUsers = async (req, res) => {
     try {
         const users = await usersService.getAllUsers();
         if (users.length === 0) {
-            log('Controlador', 'getUsers', 'No existen usuarios', 404);
+            log('Controlador', 'getUsers', 'No existen usuarios', null, 404);
             return res.status(404).json({ error: 'No existen usuarios' });
         }
 
         log('Controlador', 'getUsers', 'Usuarios obtenidos', users);
         return res.status(200).json(users);
     } catch (error) {
-        logError('Controlador', 'getUsers', error, 500, 'Error al obtener los usuarios');
+        logError('Controlador', 'getUsers', error, 'Error al obtener los usuarios', 500);
         return res.status(500).json({ error: 'Error al obtener los usuarios' });
     }
 };
@@ -21,7 +21,7 @@ export const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            log('Controlador', 'getUserById', 'ID de usuario inválido', 400);
+            log('Controlador', 'getUserById', 'ID de usuario inválido', null, 400);
             return res.status(400).json({ error: 'ID de usuario inválido' });
         }
         const user = await usersService.getUserById(id);
@@ -32,7 +32,7 @@ export const getUserById = async (req, res) => {
         if (error.message === 'Usuario no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'getUserById', error, 500, 'Error al obtener el usuario');
+        logError('Controlador', 'getUserById', error, 'Error al obtener el usuario', 500);
         return res.status(500).json({ error: 'Error al obtener el usuario' });
     }
 };
@@ -41,7 +41,7 @@ export const getUserByEmail = async (req, res) => {
     try {
         const { email } = req.params;
         if (!email) {
-            log('Controlador', 'getUserByEmail', 'Email de usuario inválido', 400);
+            log('Controlador', 'getUserByEmail', 'Email de usuario inválido', null, 400);
             return res.status(400).json({ error: 'Email de usuario inválido' });
         }
         const user = await usersService.getUserByEmail(email);
@@ -52,7 +52,7 @@ export const getUserByEmail = async (req, res) => {
         if (error.message === 'Usuario no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'getUserByEmail', error, 500, 'Error al obtener el usuario');
+        logError('Controlador', 'getUserByEmail', error, 'Error al obtener el usuario', 500);
         return res.status(500).json({ error: 'Error al obtener el usuario' });
     }
 };
@@ -61,7 +61,7 @@ export const searchUserByFullName = async (req, res) => {
     const { fullName } = req.query;
 
     if (!fullName || typeof fullName !== 'string' || fullName.trim() === '') {
-        log('Controlador', 'searchUserByFullName', 'Se requiere el query param << fullName >>', 400);
+        log('Controlador', 'searchUserByFullName', 'Se requiere el query param << fullName >>', null, 400);
         return res.status(400).json({ error: 'Se requiere el query param << fullName >>' });
     }
 
@@ -72,7 +72,7 @@ export const searchUserByFullName = async (req, res) => {
         log('Controlador', 'searchUserByFullName', 'filteredUsers', filteredUsers);
         return res.status(200).json(filteredUsers);
     } catch (error) {
-        logError('Controlador', 'searchUserByFullName', error, 500, 'Error al buscar el usuario por nombre');
+        logError('Controlador', 'searchUserByFullName', error, 'Error al buscar el usuario por nombre', 500);
         return res.status(500).json({ error: 'Error al buscar el usuario por nombre' });
     }
 };
@@ -81,7 +81,7 @@ export const createUser = async (req, res) => {
     const validation = usersService.validateUserData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'createUser', 'Datos inválidos', 400, validation.errors);
+        log('Controlador', 'createUser', 'Datos inválidos', validation.errors, 400);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -102,10 +102,10 @@ export const createUser = async (req, res) => {
             role
         });
 
-        log('Controlador', 'createUser', 'Usuario creado', 201, newUser);
+        log('Controlador', 'createUser', 'Usuario creado', newUser, 201);
         return res.status(201).json(newUser);
     } catch (error) {
-        logError('Controlador', 'createUser', error, 500, 'Error al crear el usuario');
+        logError('Controlador', 'createUser', error, 'Error al crear el usuario', 500);
         return res.status(500).json({ error: 'Error al crear el usuario' });
     }
 };
@@ -113,14 +113,14 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     const { id } = req.params;
     if (!id) {
-        log('Controlador', 'updateUser', 'ID de usuario inválido', 400);
+        log('Controlador', 'updateUser', 'ID de usuario inválido', null, 400);
         return res.status(400).json({ error: 'ID de usuario inválido' });
     }
 
     const validation = usersService.validateUserUpdateData(req.body);
 
     if (!validation.valid) {
-        log('Controlador', 'updateUser', 'Datos inválidos', 400, validation.errors);
+        log('Controlador', 'updateUser', 'Datos inválidos', validation.errors, 400);
         return res.status(400).json({
             error: 'Datos inválidos',
             details: validation.errors
@@ -138,7 +138,7 @@ export const updateUser = async (req, res) => {
         if (error.message === 'Usuario no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'updateUser', error, 500, 'Error al actualizar el usuario');
+        logError('Controlador', 'updateUser', error, 'Error al actualizar el usuario', 500);
         return res.status(500).json({ error: 'Error al actualizar el usuario' });
     }
 };
@@ -147,7 +147,7 @@ export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            log('Controlador', 'deleteUser', 'ID de usuario inválido', 400);
+            log('Controlador', 'deleteUser', 'ID de usuario inválido', null, 400);
             return res.status(400).json({ error: 'ID de usuario inválido' });
         }
 
@@ -159,7 +159,7 @@ export const deleteUser = async (req, res) => {
         if (error.message === 'Usuario no encontrado') {
             return res.status(404).json({ error: error.message });
         }
-        logError('Controlador', 'deleteUser', error, 500, 'Error al eliminar el usuario');
+        logError('Controlador', 'deleteUser', error, 'Error al eliminar el usuario', 500);
         return res.status(500).json({ error: 'Error al eliminar el usuario' });
     }
 };
