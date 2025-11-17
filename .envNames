@@ -1,0 +1,12 @@
+PORT=
+NODE_ENV=
+
+FIREBASE_apiKey=
+FIREBASE_authDomain=
+FIREBASE_projectId=
+FIREBASE_storageBucket=
+FIREBASE_messagingSenderId=
+FIREBASE_appId=
+JWT_secret=
+
+JWT_EXPIRES_IN=
