@@ -1,0 +1,34 @@
+{
+  "QNtu4ireE51JCXaAq72p": {
+    "userId": 8,
+    "products": [
+      {
+        "productRef": {
+          "_firestore": {
+            "projectId": "proyecto-final-3dc96"
+          },
+          "_path": {
+            "segments": [
+              "craftProducts",
+              "nN5TsdCZ3xTpjJMovbIN"
+            ]
+          },
+          "_converter": {}
+        },
+        "quantity": 1,
+        "unitPrice": 420
+      }
+    ],
+    "totalAmount": 357,
+    "pickupDate": "16-10-24",
+    "pickupTimeSlot": "10:00-11:00",
+    "customerNotes": "Sin notas",
+    "contactEmail": "maria.rodriguez@email.com",
+    "paymentMethod": "credit",
+    "subtotal": 420,
+    "discount": 63,
+    "state": "finished",
+    "discountCode": "FIRST20ECO",
+    "ecoPackaging": true
+  }
+}

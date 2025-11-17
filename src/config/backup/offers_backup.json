@@ -1,0 +1,76 @@
+{
+  "OqvVwhlON7je7NTNFdlb": {
+    "title": "Promo 3x2 en Tés Premium Orgánicos",
+    "description": "Compra 3 tés orgánicos certificados y paga solo 2 - Apoyo a agricultores sustentables",
+    "minimumPurchase": 500,
+    "isLimited": true,
+    "limit": 50,
+    "state": "active",
+    "promotionalCode": "TEA3X2ECO",
+    "startDate": "01-10-24",
+    "endDate": "31-10-24",
+    "applicableTo": [
+      {
+        "_firestore": {
+          "projectId": "proyecto-final-3dc96"
+        },
+        "_path": {
+          "segments": [
+            "teasProducts",
+            "sk9PXrNkIcmXliUCVxJE"
+          ]
+        },
+        "_converter": {}
+      },
+      {
+        "_firestore": {
+          "projectId": "proyecto-final-3dc96"
+        },
+        "_path": {
+          "segments": [
+            "teasProducts",
+            "383ZnscWvmuFJKSvOEF4"
+          ]
+        },
+        "_converter": {}
+      }
+    ]
+  },
+  "fD5zPquTNZ0z1YWYa95R": {
+    "title": "Set Artesanía Eco + Té Orgánico a Precio Especial",
+    "description": "Lleva una artesanía reciclada + un té orgánico con 15% descuento - Consumo responsable",
+    "applicableTo": [
+      {
+        "_firestore": {
+          "projectId": "proyecto-final-3dc96"
+        },
+        "_path": {
+          "segments": [
+            "teasProducts",
+            "383ZnscWvmuFJKSvOEF4"
+          ]
+        },
+        "_converter": {}
+      },
+      {
+        "_firestore": {
+          "projectId": "proyecto-final-3dc96"
+        },
+        "_path": {
+          "segments": [
+            "craftProducts",
+            "3wV3QopV8NZd91neJW3W"
+          ]
+        },
+        "_converter": {}
+      }
+    ],
+    "minimumPurchase": 800,
+    "isLimited": false,
+    "limit": null,
+    "state": "active",
+    "promotionalCode": "SETECO15",
+    "startDate": "15-01-24",
+    "endDate": "15-02-24"
+  }
+}

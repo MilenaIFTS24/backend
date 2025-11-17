@@ -1,0 +1,65 @@
+{
+  "383ZnscWvmuFJKSvOEF4": {
+    "name": "Pu-erh Envejecido 10 años Orgánico",
+    "brand": "Ancient Forest Tea Organic",
+    "description": "Té fermentado orgánico de bosques protegidos, envejecido naturalmente",
+    "price": 520,
+    "stock": 5
+  },
+  "3T0D7au4dfMw6WdvP0BQ": {
+    "name": "Chai Especiado Orgánico Tradicional",
+    "brand": "Spice Route Organic",
+    "description": "Mezcla de especias con té negro orgánico, sin aditivos químicos",
+    "price": 220,
+    "stock": 28
+  },
+  "G9m7zZIC5pIm41Kd834z": {
+    "name": "Té Negro English Breakfast Orgánico",
+    "brand": "London Organic Tea House",
+    "description": "Blend inglés clásico 100% orgánico, comercio justo certificado",
+    "price": 200,
+    "stock": 50
+  },
+  "WTdsmo1SkW4ByFeZiDzQ": {
+    "name": "Rooibos Vainilla y Canela Orgánico",
+    "brand": "African Organic Essence",
+    "description": "Rooibos 100% orgánico con vainilla natural y canela, apoyo a comunidades locales sudafricanas",
+    "price": 180,
+    "stock": 35
+  },
+  "ZW0Gz4jX6Rbvvr2dIUvq": {
+    "name": "Té Blanco Silver Needle Orgánico",
+    "brand": "Chinese White Tea Eco",
+    "description": "Té blanco delicado 100% orgánico, recolección manual sustentable",
+    "price": 390,
+    "stock": 8
+  },
+  "dKjAPfaOPcGblKWN9A70": {
+    "name": "Infusión Relajante - Manzanilla y Lavanda Ecológica",
+    "brand": "Herbals Eco Argentina",
+    "description": "Flores de manzanilla y lavanda 100% orgánicas, cultivadas localmente sin pesticidas",
+    "price": 150,
+    "stock": 42
+  },
+  "h1F2vVEh77ccwD4sT8Lt": {
+    "name": "Té Verde Sencha Orgánico Premium",
+    "brand": "Japanese Gardens Organic",
+    "description": "Té verde japonés de primera cosecha, cultivado orgánicamente en las montañas de Shizuoka. Sabor fresco y ligeramente dulce con notas herbales",
+    "price": 1111,
+    "stock": 20
+  },
+  "nhdJb9syoKQdWZdK36UP": {
+    "name": "Darjeeling First Flush Orgánico",
+    "brand": "Himalayan Organic Gardens",
+    "description": "Té negro de los Himalaya, cultivo orgánico certificado, primera cosecha",
+    "price": 320,
+    "stock": 12
+  },
+  "sk9PXrNkIcmXliUCVxJE": {
+    "name": "Té Matcha Orgánico Premium Ceremonial",
+    "brand": "Pure Green Japan Organic",
+    "description": "Matcha 100% orgánico de cultivo tradicional, sombreado natural para máxima clorofila",
+    "price": 680,
+    "stock": 15
+  }
+}

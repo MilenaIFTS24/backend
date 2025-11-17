@@ -1,0 +1,74 @@
+{
+  "3wV3QopV8NZd91neJW3W": {
+    "name": "Tazón de Cerámica Artesanal Ecológica",
+    "brandArtist": "Clara Mendoza",
+    "description": "Tazón para té elaborado a mano con barro local reciclado, acabado natural sin tóxicos",
+    "ecoFriendly": true,
+    "price": 850,
+    "stock": 1,
+    "creationDate": "15-08-24"
+  },
+  "92K3yAFqscPEEkZhsPFY": {
+    "name": "Velas Aromáticas 100% Soja Orgánica",
+    "brandArtist": "Aromatherapy Eco Handmade",
+    "creationDate": "20-06-24",
+    "description": "Velas 100% biodegradables de soja orgánica con aromas naturales esenciales",
+    "ecoFriendly": true,
+    "price": 320,
+    "stock": 18
+  },
+  "UYBfzUHQooXjvhrVqVIZ": {
+    "name": "Almohadilla de Bambú Orgánico para Tazas",
+    "brandArtist": "Bamboo Eco Crafts",
+    "creationDate": "30-05-24",
+    "description": "Base de bambú 100% orgánico y biodegradable, cosecha sustentable sin químicos",
+    "ecoFriendly": true,
+    "price": 180,
+    "stock": 25
+  },
+  "ebwfOfpXrfdXXcBcZmSr": {
+    "name": "Bandeja de Plata Repujada Reciclada",
+    "brandArtist": "Platería Andina Eco",
+    "creationDate": "20-07-24",
+    "description": "Bandeja de plata 950 reciclada con diseños andinos tradicionales, apoyo a artesanías originarias",
+    "ecoFriendly": true,
+    "price": 2800,
+    "stock": 1
+  },
+  "nN5TsdCZ3xTpjJMovbIN": {
+    "name": "Tejido Andino - Mantel de Lana Natural",
+    "brandArtist": "Tejedoras de Tilcara",
+    "creationDate": "10-07-24",
+    "description": "Mantel tejido a mano con lana natural 100% orgánica, tintes vegetales, apoyo a comunidades originarias",
+    "ecoFriendly": true,
+    "price": 1200,
+    "stock": 4
+  },
+  "oci1yIvdc0BGQXcbzJ3I": {
+    "name": "Escultura de Piedra Volcánica Reciclada",
+    "brandArtist": "Artesano Roberto Gil Eco",
+    "creationDate": "15-04-24",
+    "description": "Escultura abstracta hecha de piedra volcánica rescatada, apoyo a artesanos locales",
+    "ecoFriendly": true,
+    "price": 3200,
+    "stock": 1
+  },
+  "rnVNuYhTHjecJ4htE2Dh": {
+    "name": "Set de Infusores de Acero Inoxidable Reciclado",
+    "brandArtist": "MetalArts Eco Studio",
+    "creationDate": "22-08-24",
+    "description": "Set de 3 infusores elaborados con acero inoxidable reciclado, reutilizable y duradero",
+    "ecoFriendly": true,
+    "price": 420,
+    "stock": 12
+  },
+  "vNSSZ58nR2A2UKZkIlL8": {
+    "name": "Bolsas de Tela Orgánica Reutilizables - Pack x3",
+    "brandArtist": "EcoDesign Studio",
+    "creationDate": "10-09-24",
+    "description": "Bolsas 100% algodón orgánico certificado, tintes naturales, cero residuos plásticos",
+    "ecoFriendly": true,
+    "price": 280,
+    "stock": 30
+  }
+}
